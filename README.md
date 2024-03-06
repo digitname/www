@@ -1,10 +1,11 @@
 # [digitName.com](http://www.digitname.com)
 
-## raporty
+## Raporty
 
 + [Raport rynku domen, 2024.digitname.com - Jak zmieniał się rynek domen w ostatniej dekadzie? Jak zmieni się rynek do roku 2030?](https://2024.digitname.com/)
 
-## usługi
+
+## Usługi
 
 + [Pomoc askDomainer](https://oferta.askdomainer.com/)
    
