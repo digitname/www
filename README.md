@@ -52,6 +52,55 @@ Domeny działają na protokołach internetowych, podczas gdy telefonii głosowej
 
 
 ---
+
+
+
+![obraz](https://github.com/tom-sapletta-com/rynek-pracy-2030-eu/assets/5669657/24abdad9-5aff-4834-95a0-d7215cc6e0bc)
+
+## Tom Sapletta
+
+Na co dzień DevOps i ewangelista hipermodularyzacji.
+Łączy doświadczenie w programowaniu i research-u poprzez wdrażanie nowatorskich rozwiązań. 
+Szerokie spektrum zainteresowań, umiejętności analityczne i doświadczenie w branży owocują pozatechnicznymi treściami jak powyższy raport.
+
++ [Tom Sapletta, Linkedin](https://www.linkedin.com/in/tom-sapletta-com)
++ [Tom Sapletta, Github](https://github.com/tom-sapletta-com)
++ [Pomoc askDomainer](https://oferta.askdomainer.com/)
+
+### Inne Raporty:
+
++ [Rynek pracy w EU okiem Polaka - Raport 2024 - Jak zmieniał się rynek pracy w ostatniej dekadzie? Jak zmieni się rynek do roku 2030?](https://2024.teleworking.info/)
++ [Detekcja obiektów w systemach wizyjnych - Raport 2024 - Jak zmieniał się rynek systemów wizyjnych w zastosowaniach przemysłowych w ostatniej dekadzie? Jak zmieni się rynek do roku 2030?](https://2024.teleoperator.info/)
+
+---
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js"></script>
+<script>
+var config = {
+    startOnReady:true,
+    theme: 'forest',
+    flowchart:{
+            useMaxWidth:false,
+            htmlLabels:true
+        }
+};
+mermaid.initialize(config);
+mermaid.init(undefined, '.language-mermaid');
+</script>
+
+<script type="module">
+    /**
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark'
+  });
+  */
+</script>
+
+
+---
 + [edit](https://github.com/askdomainer/www/edit/main/README.md)
 
-https://askhacker.com/
