@@ -6,8 +6,8 @@
 
 ## usługi
 
-+ [oferta](https://oferta.askdomainer.com/)
-+  
++ [Pomoc askDomainer](https://oferta.askdomainer.com/)
+   
 
 ## informacje o domenach
 
