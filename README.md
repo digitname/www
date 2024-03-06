@@ -59,18 +59,24 @@ Domeny działają na protokołach internetowych, podczas gdy telefonii głosowej
 
 ## Tom Sapletta
 
-Na co dzień DevOps i ewangelista hipermodularyzacji.
-Łączy doświadczenie w programowaniu i research-u poprzez wdrażanie nowatorskich rozwiązań. 
-Szerokie spektrum zainteresowań, umiejętności analityczne i doświadczenie w branży owocują pozatechnicznymi treściami jak powyższy raport.
+Na co dzień DevOps i ewangelista hipermodularyzacji, wsparcie techniczne dla startupów i specjalistów.
+Globalne oświadczenie w research-u i wdrażaniu nowatorskich rozwiązań pozwala na szybkie dopasowanie rozwiązania do szczególnych potrzeb, zapraszam:
 
 + [Tom Sapletta, Linkedin](https://www.linkedin.com/in/tom-sapletta-com)
 + [Tom Sapletta, Github](https://github.com/tom-sapletta-com)
++ [Softreck - Leadership Through Software Development](https://softreck.com/)
+
+### Usługi
+
 + [Pomoc askDomainer](https://oferta.askdomainer.com/)
 
-### Inne Raporty:
+
+
+### Raporty:
 
 + [Rynek pracy w EU okiem Polaka - Raport 2024 - Jak zmieniał się rynek pracy w ostatniej dekadzie? Jak zmieni się rynek do roku 2030?](https://2024.teleworking.info/)
 + [Detekcja obiektów w systemach wizyjnych - Raport 2024 - Jak zmieniał się rynek systemów wizyjnych w zastosowaniach przemysłowych w ostatniej dekadzie? Jak zmieni się rynek do roku 2030?](https://2024.teleoperator.info/)
+
 
 ---
 
