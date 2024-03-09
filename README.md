@@ -4,16 +4,20 @@
 
 + [Raport rynku domen, 2024.digitname.com - Jak zmieniał się rynek domen w ostatniej dekadzie? Jak zmieni się rynek do roku 2030?](https://2024.digitname.com/)
 
+## Portfolio
+
++ [domainLeak.com](https://www.domainleak.com/)
 
 ## Usługi
 
-+ [Pomoc askDomainer](https://oferta.askdomainer.com/)
++ [Pomoc askDomainer PL](https://oferta.askdomainer.com/)
    
 
 ## informacje o domenach
 
 + [Numery telefonów i domeny internetowe](NUMERY.md)
-
++ [100 najczęstszych technicznyh problemów z domenami internetowymi](http://100.askdomainer.com/PL)
+  
 ---
 
 
