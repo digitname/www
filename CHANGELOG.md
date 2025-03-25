@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 - Changes in image-preloader.js
 - Changes in index.html
 - Changes in portfolio.html
-- Changes in script.js
+- Changes in checker.js
 - Changes in styles.css
 - Changes in thumbnails/militarity_com.png
 - Changes in thumbnails/www_airsca_com.png

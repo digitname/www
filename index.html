@@ -1,375 +1,493 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>digitName.com - Tom Sapletta Portfolio</title>
-    <script src="script.js"></script>
+    <title>Tom Sapletta - Professional Portfolio</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.2.12/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.8.0/mermaid.min.js"></script>
+    <!--    <script src="checker.js" defer></script>-->
+    <script src="project.js" defer></script>
+    <script src="portfolio.js" defer></script>
+    <script src="image-preloader.js" defer></script>
 </head>
 <body>
-    <div class="loader" id="loader">
-        <div class="spinner"></div>
+<div class="loader" id="loader">
+    <div class="spinner"></div>
+</div>
+
+
+<div class="container">
+
+    <div class="profile-section">
+
+        <img src="https://sapletta.github.io/about/image.png" alt="Tom Sapletta" class="profile-image">
+        <div class="profile-content">
+            <h1><a href="https://sapletta.com">Tom Sapletta</a> <a href="https://www.digitname.com">DigitName
+                Portfolio</a></h1>
+
+
+            <p class="bio">Tom Sapletta is a researcher at <a href="https://softreck.com/">Softreck</a> and an author
+                whose work focuses on modular SaaS architecture, facilitating bug diagnosis and resolution. He is also
+                developing <a href="https://www.oneday.run/">oneday.run</a>, a scalable infrastructure using <a
+                        href="https://www.apidsl.com">apidsl</a>.</p>
+
+            <div class="professional-summary">
+                <h2>Professional Overview</h2>
+                <p>With over 12 years of experience as a DevOps Engineer, Software Developer, and Systems Architect, I
+                    specialize in creating human-technology connections through innovative solutions. My expertise spans
+                    edge computing, hypermodularization, and automated software development lifecycles, with a focus on
+                    building bridges between complex technical requirements and human needs.</p>
+
+                <p>Currently, as the founder and CEO of <a href="https://www.telemonit.com/">Telemonit</a>, I'm
+                    developing Portigen - an innovative power supply system with integrated edge computing functionality
+                    that enables natural human-machine interactions even in environments with limited connectivity.</p>
+            </div>
+
+            <div class="expertise-areas">
+                <h2>Areas of Expertise</h2>
+                <ul class="expertise-list">
+                    <li><strong>DevOps & Cloud Engineering:</strong> Docker, Kubernetes, CI/CD pipelines, infrastructure
+                        automation
+                    </li>
+                    <li><strong>Software Development:</strong> Java, Python, PHP, NodeJS, microservices architecture
+                    </li>
+                    <li><strong>Edge Computing & IoT:</strong> Distributed systems, sensor networks, real-time
+                        processing
+                    </li>
+                    <li><strong>Hardware-Software Integration:</strong> Embedded systems, power management solutions
+                    </li>
+                    <li><strong>Research:</strong> TextToSoftware, Hypermodularization, Model-Based Systems Engineering
+                    </li>
+                </ul>
+            </div>
+
+            <div class="notable-projects">
+                <h2>Notable Projects</h2>
+
+                <div class="project">
+                    <h3><a href="https://portigen.com">Portigen</a></h3>
+                    <p>An innovative power supply system with edge computing capabilities, providing autonomous energy
+                        solutions for IoT and edge computing applications. Features include 500Wh capacity, ultra-low
+                        latency processing, and modular design for various deployment scenarios.</p>
+                </div>
+
+                <div class="project">
+                    <h3><a href="https://text.to.software">TextToSoftware Ecosystem</a></h3>
+                    <p>Pioneering systems that convert natural language into functional applications, bridging the gap
+                        between human communication and code generation.</p>
+                </div>
+
+                <div class="project">
+                    <h3><a href="https://www.hypermodularization.com">Hypermodularization</a></h3>
+                    <p>Research and implementation of highly modular code architecture methodologies that enhance
+                        maintainability, scalability, and component reusability.</p>
+                </div>
+
+                <div class="project">
+                    <h3><a href="https://pypi.org/user/tom-sapletta-com/">Python Packages</a></h3>
+                    <p>Creator of numerous Python libraries including pifunc, mdirtree, markdown2code, dynapsys, and
+                        more, focusing on automation, modularity, and domain-specific languages (DSLs).</p>
+                </div>
+            </div>
+
+            <div class="publications">
+                <h2>Publications & Creative Works</h2>
+                <ul>
+                    <li>"System sterowania dla osób niepełnosprawnych" (Control System for People with Disabilities) -
+                        Published in Elektronika dla Wszystkich, 1999
+                    </li>
+                    <li>
+                        <a href="https://www.amazon.ca/Hexagonal-Sandbox-smartphones-modular-architecture-ebook/dp/B0CR1RLZYQ">"Hexagonal
+                            Sandbox with Smartphones"</a> - Illustrated book explaining complex hypermodularization
+                        technologies for children
+                    </li>
+                    <li><a href="https://www.hypermodularity.com">Hyper Modularity</a> - Software modularization
+                        insights
+                    </li>
+                    <li><a href="https://www.programista.de">Programista w Niemczech</a> - Insights into working as a
+                        developer in Germany
+                    </li>
+                </ul>
+            </div>
+
+            <div class="professional-experience">
+                <h2>Professional Experience</h2>
+                <div class="experience-item">
+                    <h3>Telemonit, Frankfurt Oder</h3>
+                    <p class="position">Founder & CEO, Hardware and Software Developer</p>
+                    <p class="date">06.2024 – Present</p>
+                    <p>Leading the development and production of Portigen energy supply stations with edge computing
+                        capabilities.</p>
+                </div>
+
+                <div class="experience-item">
+                    <h3>Link11 GmbH, Frankfurt</h3>
+                    <p class="position">DevOps Engineer CDN/DNS</p>
+                    <p class="date">07.2023 – 01.2024</p>
+                    <p>Optimized CDN/DNS services for improved security and performance.</p>
+                </div>
+
+                <div class="experience-item">
+                    <h3>IT-NRW (SEVEN PRINCIPLES AG), Düsseldorf</h3>
+                    <p class="position">Java Developer and DevOps</p>
+                    <p class="date">09.2020 - 04.2023</p>
+                    <p>Developed integration platforms connecting complex systems for public service applications.</p>
+                </div>
+            </div>
+
+            <div class="research-interests">
+                <h2>Research Interests</h2>
+                <p>My research focuses on creating accessible, modular solutions to complex technical challenges. Key
+                    areas include:</p>
+                <ul>
+                    <li>TextToSoftware - Automated Code Generation from Natural Language</li>
+                    <li>Hypermodularization in Software Architecture</li>
+                    <li>Edge Computing and Distributed Systems</li>
+                    <li>Model-Based Systems Engineering (MBSE)</li>
+                    <li>Component-Based Software Development</li>
+                    <li>Digital Twin Technology</li>
+                </ul>
+            </div>
+
+
+            <div class="collaboration">
+                <h2>Collaboration Opportunities</h2>
+                <p>I welcome collaboration in edge computing, hypermodularization, text-to-software technologies, and
+                    open-source hardware/software development. Particularly interested in projects bridging academic
+                    research with practical industry applications and technology education initiatives.</p>
+            </div>
+        </div>
+
+
     </div>
 
-    <div class="container">
-        <div class="markdown-body" id="content">
-            <!-- Tutaj będzie załadowana treść portfolio -->
-        </div>
-    </div>
+
+    <div class="section" id="contact">
+        <h2>Contact Information</h2>
+        <div class="contact-container">
+            <div class="contact-item">
+                <h3>ORCID</h3>
+                <p><a href="https://orcid.org/my-orcid?orcid=0009-0000-6327-2810">0009-0000-6327-2810</a></p>
+            </div>
+            <div class="contact-item">
+                <h3>GitHub</h3>
+                <p><a href="https://github.com/tom-sapletta-com">tom-sapletta-com</a></p>
+            </div>
+            <div class="contact-item">
+                <h3>Python Packages</h3>
+                <p><a href="https://pypi.org/user/tom-sapletta-com/">PyPI</a></p>
+            </div>
+            <div class="contact-item">
+                <h3>LinkedIn</h3>
+                <p><a href="https://www.linkedin.com/in/tom-sapletta-com/">Tom Sapletta</a></p>
+            </div>
+            <div class="contact-item">
+                <h3>English Blog</h3>
+                <p><a href="https://tom.sapletta.com/">tom.sapletta.com</a></p>
+            </div>
+            <div class="contact-item">
+                <h3>Deutsch</h3>
+                <p><a href="https://tom.sapletta.de/">tom.sapletta.de</a></p>
+            </div>
+            <div class="contact-item">
+                <h3>Polski</h3>
+                <p><a href="https://tom.sapletta.p0l/">tom.sapletta.pl</a></p>
+            </div>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Konfiguracja Mermaid
-            mermaid.initialize({
-                startOnLoad: true,
-                theme: 'forest',
-                flowchart: {
-                    useMaxWidth: false,
-                    htmlLabels: true
-                }
-            });
+            <div class="contact-item">
+                <h3>Softreck</h3>
+                <p><a href="https://www.softreck.com/">Software Development</a>
+            </div>
 
-            // Domyślna zawartość Markdown z Twojego przykładu
-            const defaultMarkdown = `# [digitName.com](http://www.digitname.com)
-## Raporty
-+ [Raport rynku domen, 2024.digitname.com - Jak zmieniał się rynek domen w ostatniej dekadzie? Jak zmieni się rynek do roku 2030?](https://2024.digitname.com/)
-
-## Usługi
-+ [Pomoc askDomainer PL](https://oferta.askdomainer.com/)
-
-## informacje o domenach
-
-+ [100 najczęstszych technicznyh problemów z domenami internetowymi](http://100.askdomainer.com/PL)
-
----
-![obraz](https://github.com/tom-sapletta-com/rynek-pracy-2030-eu/assets/5669657/24abdad9-5aff-4834-95a0-d7215cc6e0bc)
-## Tom Sapletta
-Na co dzień DevOps i ewangelista hipermodularyzacji, oferuję wsparcie techniczne dla startupów i specjalistów.
-Posiadam globalne doświadczenie w research-u i wdrażaniu i utrzymaniu systemów informatycznych.
-Ułatwiam dopasowanie rozwiązania do potrzeb, zapraszam:
-+ [Tom Sapletta, Linkedin](https://www.linkedin.com/in/tom-sapletta-com)
-+ [Tom Sapletta, Github](https://github.com/tom-sapletta-com)
-+ [Softreck - Leadership Through Software Development](https://softreck.com/)
-### Usługi
-+ [Pomoc askDomainer](https://oferta.askdomainer.com/)
-### Raporty:
-+ [Detekcja obiektów w systemach wizyjnych - Raport 2024 - Jak zmieniał się rynek systemów wizyjnych w zastosowaniach przemysłowych w ostatniej dekadzie? Jak zmieni się rynek do roku 2030?](https://2024.teleoperator.info/)
-`;
-            // ## Portfolio
-// + [domainLeak.com](https://www.domainleak.com/)
-// + [Numery telefonów i domeny internetowe](NUMERY.md)
-            // + [Rynek pracy w EU okiem Polaka - Raport 2024 - Jak zmieniał się rynek pracy w ostatniej dekadzie? Jak zmieni się rynek do roku 2030?](https://2024.teleworking.info/)
-
-            // Wypełnij treść domyślną
-            renderMarkdown(defaultMarkdown);
-
-            // Próba pobrania treści z GitHub
-            // fetchContent();
-
-            // Ukryj loader po załadowaniu treści
-            setTimeout(function() {
-                document.getElementById('loader').classList.add('fade-out');
-            }, 1000);
-        });
-
-        async function fetchContent() {
-            try {
-                // URL do surowego pliku Markdown na GitHubie (zmień na właściwy)
-                const url = 'https://raw.githubusercontent.com/askdomainer/www/main/README.md';
-                const response = await fetch(url);
-
-                if (response.ok) {
-                    const markdown = await response.text();
-                    renderMarkdown(markdown);
-                } else {
-                    console.error('Nie udało się pobrać zawartości:', response.status);
-                }
-            } catch (error) {
-                console.error('Błąd podczas pobierania zawartości:', error);
-            }
-        }
-
-        function renderMarkdown(markdown) {
-            // Konwersja Markdown na HTML
-            const html = marked.parse(markdown);
-            document.getElementById('content').innerHTML = html;
-
-            // Renderuj diagramy Mermaid po załadowaniu treści
-            setTimeout(() => {
-                mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
-            }, 100);
-        }
-    </script>
-
-    <header>
-        <h1>Tom Sapletta - Portfolio</h1>
-    </header>
-
-    <div class="dashboard-stats">
-        <div class="stat-card">
-            <h3>Total Websites</h3>
-            <div class="stat-value" id="total-websites">0</div>
-        </div>
-        <div class="stat-card">
-            <h3>Most Common Theme</h3>
-            <div class="stat-value" id="common-theme">-</div>
-        </div>
-        <div class="stat-card">
-            <h3>Top Technology</h3>
-            <div class="stat-value" id="top-tech">-</div>
-        </div>
-        <div class="stat-card">
-            <h3>Last Updated</h3>
-            <div class="stat-value" id="last-updated">-</div>
+            <div class="contact-item">
+                <h3>Telemonit</h3>
+                <a href="https://www.telemonit.com/">Hardware Development</a></p>
+            </div>
         </div>
     </div>
 
     <div class="tech-tag-cloud">
-        <h3>Most Used Technologies</h3>
-        <div id="tech-tags"></div>
-    </div>
-
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search by domain, theme, technology, or keyword...">
-        <div class="filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
-            <button class="filter-btn" data-filter="blog">Blog</button>
-            <button class="filter-btn" data-filter="portfolio">Portfolio</button>
-            <button class="filter-btn" data-filter="corporate">Corporate</button>
-            <button class="filter-btn" data-filter="news">News</button>
+        <h3>Areas of Expertise</h3>
+        <div id="tech-tagss">
+            <span class="tech-tag">Hypermodularity</span>
+            <span class="tech-tag">ModDevOps</span>
+            <span class="tech-tag">Edge Computing</span>
+            <span class="tech-tag">MBSE</span>
+            <span class="tech-tag">Text to Software</span>
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">DSL</span>
+            <span class="tech-tag">Automation</span>
+            <span class="tech-tag">DevOps</span>
+            <span class="tech-tag">Digital Twin</span>
         </div>
     </div>
 
-    <div class="portfolio-container" id="portfolio-items">
-        <!-- Portfolio items will be dynamically inserted here -->
+    <div class="section" id="research">
+        <h2>Research Areas</h2>
+        <ul class="research-list">
+            <li>TextToSoftware: Automated Code Generation from Natural Language</li>
+            <li>Hypermodularization in Software Architecture and Development</li>
+            <li>Edge Computing and Distributed Systems</li>
+            <li>Model-Based Systems and Software Engineering (MBSE and ModDevOps)</li>
+            <li>Component-Based Software Development (CBSD)</li>
+            <li>Digital Twin Technology</li>
+            <li>Open Source Development Methodologies</li>
+            <li>Hardware-Software Integration</li>
+        </ul>
     </div>
+
+
+    <!--    <div class="section" id="ventures">-->
+    <!--        <h2>Expat & Entrepreneurial Ventures</h2>-->
+    <!--        <div class="ventures-container">-->
+    <!--            <div class="venture-item">-->
+    <!--                <h3><a href="https://www.nierezydent.pl/">Nierezydent</a></h3>-->
+    <!--                <p>A guide to becoming a non-resident of Poland.</p>-->
+    <!--            </div>-->
+    <!--            <div class="venture-item">-->
+    <!--                <h3><a href="https://www.rezydent.de/">Rezydent.de</a></h3>-->
+    <!--                <p>Tax residency in Germany.</p>-->
+    <!--            </div>-->
+    <!--            <div class="venture-item">-->
+    <!--                <h3><a href="https://www.dlaczego.de/">Dlaczego.de</a></h3>-->
+    <!--                <p>Benefits of doing business in Germany.</p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <div class="section" id="opensource">
+        <h2>Open Source Projects</h2>
+        <div class="opensource-container">
+            <div class="opensource-item">
+                <h3><a href="https://modules.webstream.dev">Modules.webstream.dev</a></h3>
+                <p>WebStream modular solutions.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="section" id="offer">
+        <h2>Services Offered</h2>
+        <div class="offer-container">
+            <div class="offer-column">
+                <h3>Infrastructure Development</h3>
+                <ul>
+                    <li>DevOps</li>
+                    <li>Cloud Engineer</li>
+                    <li>Solutions Architect</li>
+                </ul>
+            </div>
+            <div class="offer-column">
+                <h3>Software Development</h3>
+                <ul>
+                    <li>Python</li>
+                    <li>Java, Kotlin, Scala</li>
+                    <li>JavaScript, TypeScript, Node.js</li>
+                    <li>PHP</li>
+                </ul>
+            </div>
+            <div class="offer-column">
+                <h3>Hardware Development</h3>
+                <ul>
+                    <li>Network</li>
+                    <li>IoT</li>
+                    <li>Mobile Servers</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="books">
+        <h2>Books</h2>
+        <div class="books-container">
+            <!--            <div class="book-item">-->
+            <!--                <h3><a href="https://www.programista.de">Programista w Niemczech</a></h3>-->
+            <!--                <p>Insights into working as a developer in Germany.</p>-->
+            <!--            </div>-->
+            <div class="book-item">
+                <h3><a href="https://www.hypermodular.com">Hyper Modular Architecture</a></h3>
+                <p>Software modularization insights.</p>
+            </div>
+            <div class="book-item">
+                <h3>
+                    <a href="https://www.amazon.ca/Hexagonal-Sandbox-smartphones-modular-architecture-ebook/dp/B0CR1RLZYQ">Hexagonal
+                        Sandbox with Smartphones</a></h3>
+                <p>Illustrated book explaining complex hypermodularization technologies in an accessible way for
+                    children.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="services">
+        <h2>SaaS Services</h2>
+        <div class="services-container">
+            <div class="service-item">
+                <h3><a href="https://www.saasisking.com">SaaS is the King</a></h3>
+            </div>
+            <!--            <div class="service-item">-->
+            <!--                <h3><a href="http://www.oneperson.services">OnePerson.Services</a></h3>-->
+            <!--                <p>Solo services</p>-->
+            <!--            </div>-->
+            <div class="service-item">
+                <h3><a href="http://www.automatyzer.com">Automatyzer.com</a></h3>
+                <p>Automation</p>
+            </div>
+            <div class="service-item">
+                <h3><a href="https://www.onedayrun.com/">OneDayRun.com</a></h3>
+                <p>One-day SaaS services</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="domains">
+        <h2>Internet Domains</h2>
+        <div class="domains-container">
+            <div class="domain-item">
+                <h3><a href="http://www.domainleak.com">DomainLeak</a></h3>
+                <p>Domain security</p>
+            </div>
+            <div class="domain-item">
+                <h3><a href="https://www.askdomainer.pl/">AskDomainer</a></h3>
+                <p>Domain consultation service</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="texttosoftware">
+        <h2>Text to Software Projects</h2>
+        <div class="texttosoftware-container">
+            <div class="texttosoftware-item">
+                <h3><a href="https://www.to.software/">www.to.software</a></h3>
+                <p>Project hub for software automation tools</p>
+            </div>
+            <div class="texttosoftware-item">
+                <h3><a href="https://text.to.software/">text.to.software</a></h3>
+                <p>Convert natural language descriptions to working software</p>
+            </div>
+            <div class="texttosoftware-item">
+                <h3><a href="https://click.to.software/">click.to.software</a></h3>
+                <p>No-code/low-code solutions</p>
+            </div>
+            <div class="texttosoftware-item">
+                <h3><a href="https://dsl.to.software/">dsl.to.software</a></h3>
+                <p>DSL to Software conversion</p>
+            </div>
+            <div class="texttosoftware-item">
+                <h3><a href="https://srs.to.software/">srs.to.software</a></h3>
+                <p>Software Requirements Specification to Software</p>
+            </div>
+            <div class="texttosoftware-item">
+                <h3><a href="https://speech.to.software/">speech.to.software</a></h3>
+                <p>Voice to software with assistant integration</p>
+            </div>
+        </div>
+    </div>
+
 
     <div class="date-info">
         <p>Last updated: <span id="current-date"></span></p>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load the data.json file
-            fetch('data.json')
-                .then(response => response.json())
-                .then(data => {
-                    // Update dashboard stats
-                    document.getElementById('total-websites').textContent = data.length;
 
-                    // Find most common theme
-                    const themes = {};
-                    data.forEach(site => {
-                        const theme = site.theme || 'Unknown';
-                        themes[theme] = (themes[theme] || 0) + 1;
-                    });
+    <div class="section" id="project-filter">
 
-                    const mostCommonTheme = Object.entries(themes)
-                        .sort((a, b) => b[1] - a[1])[0][0];
-                    document.getElementById('common-theme').textContent = mostCommonTheme;
 
-                    // Find top technology
-                    const techs = {};
-                    data.forEach(site => {
-                        (site.technologies || []).forEach(tech => {
-                            techs[tech] = (techs[tech] || 0) + 1;
-                        });
-                    });
+        <div class="search-container">
+            <input type="text" id="searchProjects"
+                   placeholder="Search projects by name, technology, or description...">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="automation">Automation</button>
+                <button class="filter-btn" data-filter="dsl">DSL</button>
+                <button class="filter-btn" data-filter="modularity">Modularity</button>
+                <button class="filter-btn" data-filter="newest">Latest Releases</button>
+            </div>
+        </div>
 
-                    const topTech = Object.entries(techs).length > 0
-                        ? Object.entries(techs).sort((a, b) => b[1] - a[1])[0][0]
-                        : 'None';
-                    document.getElementById('top-tech').textContent = topTech;
+        <h2>Python Projects</h2>
+        <div class="project-container" id="project-items">
+            <!-- project items will be dynamically inserted here via JavaScript -->
+        </div>
 
-                    // Set last updated date
-                    const today = new Date();
-                    const formattedDate = today.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                    document.getElementById('last-updated').textContent = formattedDate;
-                    document.getElementById('current-date').textContent = formattedDate;
+    </div>
 
-                    // Generate tech tag cloud
-                    const techTagsContainer = document.getElementById('tech-tags');
-                    const sortedTechs = Object.entries(techs)
-                        .sort((a, b) => b[1] - a[1])
-                        .slice(0, 15);
 
-                    sortedTechs.forEach(([tech, count]) => {
-                        const tag = document.createElement('span');
-                        tag.className = 'tech-tag';
-                        tag.textContent = `${tech} (${count})`;
-                        tag.addEventListener('click', () => {
-                            document.getElementById('searchInput').value = tech;
-                            document.getElementById('searchInput').dispatchEvent(new Event('keyup'));
-                        });
-                        techTagsContainer.appendChild(tag);
-                    });
+    <div class="section" id="project-sum">
 
-                    // Generate portfolio items
-                    const portfolioContainer = document.getElementById('portfolio-items');
+        <!--        <div class="tech-tag-cloud">-->
+        <!--            <h3>Most Used Technologies</h3>-->
+        <!--            <div id="tech-tags"></div>-->
+        <!--        </div>-->
 
-                    data.forEach(site => {
-                        const domain = site.domain || '';
-                        const url = site.url || '';
-                        const thumbnail = site.thumbnail || '';
-                        const theme = site.theme || 'Unknown';
-                        const technologies = site.technologies || [];
-                        const keywords = site.keywords || [];
-                        const description = site.description || '';
-                        const lastUpdated = site.last_updated || '';
+    </div>
 
-                        // Generate color and initials for fallback image
-                        const color = getColorForDomain(domain);
-                        const initials = getInitials(domain);
 
-                        // Create portfolio item
-                        const item = document.createElement('div');
-                        item.className = 'portfolio-item';
-                        item.setAttribute('data-domain', domain);
-                        item.setAttribute('data-theme', theme);
-                        item.setAttribute('data-keywords', keywords.join(','));
-                        item.setAttribute('data-tech', technologies.join(','));
+    <div class="section" id="projects">
 
-                        // Create HTML content
-                        item.innerHTML = `
-                            <div class="thumbnail-container">
-                                <img src="${thumbnail}" alt="${domain}" onerror="
-                                    if (!this.getAttribute('data-error-handled')) {
-                                        this.setAttribute('data-error-handled', 'true');
 
-                                        // Try loading the website in an iframe
-                                        const iframe = document.createElement('iframe');
-                                        iframe.src = '${url}';
-                                        iframe.sandbox = 'allow-same-origin allow-scripts';
-                                        iframe.onload = () => {
-                                            // Iframe loaded successfully
-                                        };
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <h3>Total Websites</h3>
+                <div class="stat-value" id="total-websites">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Most Common Theme</h3>
+                <div class="stat-value" id="common-theme">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>Top Technology</h3>
+                <div class="stat-value" id="top-tech">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>Last Updated</h3>
+                <div class="stat-value" id="last-updated">-</div>
+            </div>
+        </div>
 
-                                        // Add iframe-active class to the image container for potential styling
-                                        this.parentNode.classList.add('iframe-active');
 
-                                        // Hide the image and insert iframe before it
-                                        this.style.display = 'none';
-                                        this.parentNode.insertBefore(iframe, this);
+        <div class="tech-tag-cloud">
+            <h3>Most Used Technologies</h3>
+            <div id="tech-tags"></div>
+        </div>
 
-                                        // Handle iframe loading failure after timeout
-                                        setTimeout(() => {
-                                            if (iframe.contentDocument &&
-                                                (iframe.contentDocument.body === null ||
-                                                 iframe.contentDocument.body.innerHTML === '')) {
-                                                iframe.remove();
-                                                this.style.display = 'block';
-                                                                                                this.src = 'data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'300\\' height=\\'200\\' viewBox=\\'0 0 300 200\\'><rect fill=\\'%23${color}\\' width=\\'300\\' height=\\'200\\'></rect><text fill=\\'%23fff\\' font-family=\\'Arial\\' font-size=\\'30\\' font-weight=\\'bold\\' text-anchor=\\'middle\\' x=\\'150\\' y=\\'110\\'>${initials}</text></svg>';
-                                                this.parentNode.classList.remove('iframe-active');
-                                            }
-                                        }, 5000);
-                                    } else {
-                                        this.src = 'data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'300\\' height=\\'200\\' viewBox=\\'0 0 300 200\\'><rect fill=\\'%23${color}\\' width=\\'300\\' height=\\'200\\'></rect><text fill=\\'%23fff\\' font-family=\\'Arial\\' font-size=\\'30\\' font-weight=\\'bold\\' text-anchor=\\'middle\\' x=\\'150\\' y=\\'110\\'>${initials}</text></svg>';
-                                    }">
-                            </div>
-                            <div class="content">
-                                <div class="domain"><a href="${url}" target="_blank">${domain}</a></div>
-                                <div class="theme">${theme}</div>
-                                <div class="technologies">Technologies: ${technologies.join(', ') || 'None detected'}</div>
-                                <div class="description">
-                                    ${description}
-                                </div>
-                                <div class="tech-tags">
-                                    ${keywords.map(kw => `<span class="tech-tag">${kw}</span>`).join('')}
-                                </div>
-                            </div>
-                        `;
 
-                        portfolioContainer.appendChild(item);
-                    });
+        <div class="search-container">
+            <input type="text" id="searchPortfolio" placeholder="Search by domain, theme, technology, or keyword...">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+                <button class="filter-btn" data-filter="blog">Blog</button>
+                <button class="filter-btn" data-filter="project">project</button>
+                <button class="filter-btn" data-filter="corporate">Corporate</button>
+                <button class="filter-btn" data-filter="news">News</button>
+            </div>
+        </div>
 
-                    // Set up search functionality
-                    const searchInput = document.getElementById('searchInput');
-                    const portfolioItems = document.querySelectorAll('.portfolio-item');
 
-                    searchInput.addEventListener('keyup', function() {
-                        const searchTerm = this.value.toLowerCase();
+        <h2>Github Projects</h2>
+        <div class="portfolio-container" id="portfolio-items">
+            <!-- Portfolio items will be dynamically inserted here -->
+        </div>
 
-                        portfolioItems.forEach(item => {
-                            const domain = item.getAttribute('data-domain').toLowerCase();
-                            const theme = item.getAttribute('data-theme').toLowerCase();
-                            const keywords = item.getAttribute('data-keywords').toLowerCase();
-                            const tech = item.getAttribute('data-tech').toLowerCase();
 
-                            if (domain.includes(searchTerm) ||
-                                theme.includes(searchTerm) ||
-                                keywords.includes(searchTerm) ||
-                                tech.includes(searchTerm)) {
-                                item.style.display = 'block';
-                            } else {
-                                item.style.display = 'none';
-                            }
-                        });
-                    });
+    </div>
 
-                    // Set up filter buttons
-                    const filterButtons = document.querySelectorAll('.filter-btn');
+    <div class="section" id="portfolio-sum">
 
-                    filterButtons.forEach(button => {
-                        button.addEventListener('click', function() {
-                            // Remove active class from all buttons
-                            filterButtons.forEach(btn => btn.classList.remove('active'));
+        <!--        <div class="tech-tag-cloud">-->
+        <!--            <h3>Most Used Technologies</h3>-->
+        <!--            <div id="tech-tags"></div>-->
+        <!--        </div>-->
 
-                            // Add active class to clicked button
-                            this.classList.add('active');
+    </div>
 
-                            const filter = this.getAttribute('data-filter');
 
-                            portfolioItems.forEach(item => {
-                                if (filter === 'all') {
-                                    item.style.display = 'block';
-                                } else {
-                                    const theme = item.getAttribute('data-theme').toLowerCase();
-                                    if (theme.includes(filter)) {
-                                        item.style.display = 'block';
-                                    } else {
-                                        item.style.display = 'none';
-                                    }
-                                }
-                            });
-                        });
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading portfolio data:', error);
-                    document.getElementById('portfolio-items').innerHTML =
-                        '<p style="text-align: center; width: 100%;">Error loading portfolio data. Please try again later.</p>';
-                });
-        });
+</div>
 
-        // Helper functions
-        function getColorForDomain(domain) {
-            let hashValue = 0;
-            for (let i = 0; i < domain.length; i++) {
-                hashValue = ((hashValue << 5) - hashValue) + domain.charCodeAt(i);
-                hashValue = hashValue & 0xFFFFFF;
-            }
 
-            // Convert to hex and ensure it's 6 characters
-            return (hashValue & 0xFFFFFF).toString(16).padStart(6, '0');
-        }
-
-        function getInitials(domain) {
-            const domainName = domain.split('.')[0];
-            if (domainName.length >= 2) {
-                return domainName.substring(0, 2).toUpperCase();
-            }
-            return domainName.toUpperCase();
-        }
-    </script>
+<footer>
+    <p>&copy; 2025 Tom Sapletta - digitname.com | All Rights Reserved</p>
+</footer>
 </body>
 </html>
