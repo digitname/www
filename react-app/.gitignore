@@ -1,5 +1,10 @@
+.idea
+venv
+.TODO.txt
+.env
 # Logs
 logs
+package-lock.json
 *.log
 npm-debug.log*
 yarn-debug.log*

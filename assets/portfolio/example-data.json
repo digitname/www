@@ -1,0 +1,38 @@
+{
+  "lastUpdated": "2025-05-26T21:00:00.000Z",
+  "items": [
+    {
+      "id": "digitname",
+      "title": "DigitName",
+      "description": "Digital naming and domain management platform",
+      "image": "digitname.jpg",
+      "thumbnail": "thumbnails/digitname.jpg",
+      "icon": "icons/digitname.jpg",
+      "url": "https://digitname.com",
+      "tags": ["web", "domains", "react", "nodejs"],
+      "date": "2024-01-15"
+    },
+    {
+      "id": "domainleak",
+      "title": "DomainLeak",
+      "description": "Domain name monitoring and alerting service",
+      "image": "domainleak.jpg",
+      "thumbnail": "thumbnails/domainleak.jpg",
+      "icon": "icons/domainleak.jpg",
+      "url": "https://domainleak.com",
+      "tags": ["domains", "monitoring", "nodejs"],
+      "date": "2024-03-22"
+    },
+    {
+      "id": "askdomainer",
+      "title": "AskDomainer",
+      "description": "Domain name knowledge base and community",
+      "image": "askdomainer.jpg",
+      "thumbnail": "thumbnails/askdomainer.jpg",
+      "icon": "icons/askdomainer.jpg",
+      "url": "https://askdomainer.com",
+      "tags": ["domains", "community", "knowledge-base"],
+      "date": "2024-05-10"
+    }
+  ]
+}

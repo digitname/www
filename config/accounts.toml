@@ -1,0 +1,33 @@
+# Configuration for development accounts
+[github]
+username = "your_github_username"
+token = "your_github_token"  # Generate at: https://github.com/settings/tokens
+
+[npm]
+username = "your_npm_username"
+email = "your.email@example.com"
+token = "your_npm_token"  # Get from: https://www.npmjs.com/settings/~/tokens
+
+[pypi]
+username = "your_pypi_username"
+password = "your_pypi_password"
+
+[docker]
+username = "your_docker_username"
+password = "your_docker_password"
+
+[gitlab]
+username = "your_gitlab_username"
+token = "your_gitlab_token"  # Create at: https://gitlab.com/-/profile/personal_access_tokens
+
+[portfolio]
+output_dir = "./portfolio"
+template = "default"  # Options: default, modern, minimal
+include_private = false  # Whether to include private repositories
+
+[theme]
+primary_color = "#2563eb"
+secondary_color = "#7c3aed"
+background_color = "#ffffff"
+text_color = "#1f2937"
+font_family = "Inter, sans-serif"

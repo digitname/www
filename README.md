@@ -1,80 +1,297 @@
 # [digitName.com](http://www.digitname.com)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Mantine](https://img.shields.io/badge/Mantine-228BE6?style=flat&logo=react&logoColor=white)](https://mantine.dev/)
 
-Digital naming and domain management tools and resources.
+Digital naming and domain management tools and resources, now rebuilt with modern web technologies.
 
-## Features
+## 🚀 Features
 
-- Domain management tools
-- Portfolio of domain-related projects
-- Market analysis and reports
-- Domain name information and resources
+- ⚡ Blazing fast performance with Vite
+- 🎨 Beautiful UI components with Mantine
+- 📱 Fully responsive design
+- 🔄 Easy content updates through configuration
+- 🔒 Secure environment variable management
+- 🏗️ Modern React architecture
 
-## Getting Started
+## 🛠️ Prerequisites
 
-### Prerequisites
-
-- Python 3.8 or higher
-- Node.js 16.x or higher (for JavaScript dependencies)
+- Node.js 16.x or higher
 - npm 8.x or higher (comes with Node.js)
 - Git
 
-### Installation
+## 🚀 Quick Start
 
-1. Clone the repository:
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/askdomainer/www.git
+   git clone https://github.com/digitname/www.git
    cd www
    ```
 
-2. Install dependencies:
+2. **Run the setup script**
    ```bash
-   # Install both Python and Node.js dependencies
-   make deps
+   ./scripts/setup-env.sh
+   ```
+   This will:
+   - Create a `.env` file from the example
+   - Set up required directories
+   - Install all dependencies
+
+3. **Start the development server**
+   ```bash
+   make run
+   ```
+   The application will be available at `http://localhost:5173`
+
+# DigitName
+
+A Python package to manage your development accounts and generate a portfolio based on your activity across various platforms.
+
+## 🚀 Features
+
+- Centralized management of development accounts (GitHub, NPM, PyPI, Docker Hub, GitLab)
+- Beautiful, responsive portfolio generation
+- Easy configuration with TOML files
+- Extensible architecture for adding more platforms
+- Command-line interface for easy management
+
+## 📦 Installation
+
+### Using pip (recommended)
+
+```bash
+# Install the package in development mode
+pip install -e .
+
+# Install development dependencies
+pip install -e ".[dev]"
+```
+
+### Using Poetry
+
+```bash
+# Install dependencies
+poetry install
+
+# Activate the virtual environment
+poetry shell
+```
+
+## 🛠️ Usage
+
+1. **Initialize Configuration**
+   ```bash
+   python -m digitname init
+   ```
+   This will create a `config/accounts.toml` file with default values.
+
+2. **Edit Configuration**
+   Update the `config/accounts.toml` file with your account details:
+   ```toml
+   [github]
+   username = "your_github_username"
+   token = "your_github_token"
+
+   [npm]
+   username = "your_npm_username"
+   email = "your.email@example.com"
+   token = "your_npm_token"
    
-   # Or install them separately:
-   # make deps-py    # For Python dependencies
-   # make deps-js    # For Node.js dependencies
+   # ... other services
    ```
 
-## Usage
+3. **Generate Your Portfolio**
+   ```bash
+   python -m digitname generate-portfolio
+   ```
+   This will generate your portfolio in the `portfolio` directory by default.
 
-- Run the development server:
-  ```bash
-  make run
-  ```
-  Then open http://localhost:8000 in your browser.
+4. **View Your Portfolio**
+   Open `portfolio/index.html` in your web browser.
 
-- Create a new release:
-  ```bash
-  make release
-  ```
-  This will help you create a new version and update the changelog.
+## 🛠 Development
 
-- Publish changes:
-  ```bash
-  make publish
-  ```
-  This will update version information and push changes to the repository.
+### Project Structure
 
-## Project Structure
+```
+.
+├── digitname/            # Main package
+│   ├── __init__.py
+│   ├── accounts.py       # Account management
+│   ├── cli.py            # Command-line interface
+│   ├── portfolio.py      # Portfolio generation
+│   └── templates/        # HTML/CSS/JS templates
+├── tests/                # Test files
+├── config/               # Configuration files
+├── portfolio/            # Generated portfolio (created after first run)
+├── pyproject.toml        # Project metadata and dependencies
+├── setup.py              # Package installation script
+└── README.md            # This file
+```
 
-Key files and directories:
+### Available Commands
 
-- `index.html` - Main application entry point
-- `portfolio.html` - Portfolio page
-- `styles.css` - Main stylesheet
-- `*.js` - JavaScript modules
-  - `console.js` - Console utilities
-  - `project.js` - Project-specific JavaScript
-  - `portfolio.js` - Portfolio page JavaScript
-  - `image-preloader.js` - Image preloading utilities
-  - `checker.js` - Input validation and checking
-- `changelog.py` - Changelog management script
-- `Makefile` - Build and development tasks
-- `requirements.txt` - Python dependencies
-- `package.json` - Node.js dependencies and scripts
+- `make install` - Install dependencies
+- `make test` - Run tests
+- `make lint` - Run linters
+- `make format` - Format code
+- `make clean` - Clean build artifacts
+- `make build` - Build package
+- `make publish` - Publish to PyPI
+- `make portfolio` - Generate portfolio
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on how to contribute to this project.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with Python and love
+- Uses [Typer](https://typer.tiangolo.com/) for CLI
+- Styled with [Tailwind CSS](https://tailwindcss.com/)
+- Icons from [Tabler Icons](https://tabler-icons.io/)
+
+## 🏗️ Project Structure
+
+```
+www/
+├── assets/              # Static assets
+│   └── portfolio/      # Portfolio assets
+│       ├── icons/      # Project icons (100x100px)
+│       ├── thumbnails/ # Project thumbnails (400x300px)
+│       └── data.json   # Portfolio data (auto-generated)
+├── config/             # Service configurations
+│   ├── github/         # GitHub API config
+│   ├── npm/            # NPM config
+│   ├── pypi/           # PyPI config
+│   ├── docker/         # Docker config
+│   └── gitlab/        # GitLab config
+├── react-app/          # React application (main frontend)
+│   ├── public/         # Static files
+│   └── src/            # Source files
+│       ├── assets/     # Images, fonts, etc.
+│       ├── components/ # Reusable components
+│       ├── pages/      # Page components
+│       ├── styles/     # Global styles
+│       ├── utils/      # Utility functions
+│       ├── App.jsx     # Main App component
+│       └── main.jsx    # Application entry point
+├── scripts/            # Utility scripts
+├── .env.example        # Environment variables example
+├── .gitignore          # Git ignore file
+├── Makefile            # Project commands
+├── package.json        # Project configuration
+├── README.md           # This file
+└── requirements.txt    # Python dependencies
+```
+
+## 🛠️ Development
+
+### Available Commands
+
+```bash
+# Install dependencies
+make deps
+
+# Start development server (port 8003)
+make run
+
+# Build for production
+make build
+
+# Run tests
+make test
+
+# Clean build artifacts
+make clean
+
+# Create a new release
+make release
+
+# Update portfolio data and generate assets
+make update-portfolio
+```
+
+### Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# App
+NODE_ENV=development
+PORT=3000
+
+# GitHub
+GITHUB_USERNAME=your_github_username
+GITHUB_TOKEN=your_github_token
+GITHUB_EMAIL=your_github_email
+
+# NPM
+NPM_USERNAME=your_npm_username
+NPM_EMAIL=your_npm_email
+NPM_TOKEN=your_npm_token
+```
+
+## 🖼️ Portfolio Management
+
+### Adding a New Project
+
+1. Add your project image to `assets/portfolio/` (e.g., `myproject.jpg`)
+2. Run the portfolio update script:
+   ```bash
+   make update-portfolio
+   ```
+3. The script will:
+   - Generate a thumbnail (400x300px) in `assets/portfolio/thumbnails/`
+   - Generate an icon (100x100px) in `assets/portfolio/icons/`
+   - Update `assets/portfolio/data.json` with the new project
+
+### Portfolio Data Structure
+
+```json
+{
+  "lastUpdated": "2025-05-26T21:00:00.000Z",
+  "items": [
+    {
+      "id": "project-id",
+      "title": "Project Name",
+      "description": "Project description",
+      "image": "project.jpg",
+      "thumbnail": "thumbnails/project.jpg",
+      "icon": "icons/project.jpg",
+      "url": "https://example.com",
+      "tags": ["web", "react"],
+      "date": "2025-01-01"
+    }
+  ]
+}
+```
+
+## 📦 Publishing
+
+### Publish to NPM
+
+```bash
+make publish-npm
+```
+
+### Publish to PyPI
+
+```bash
+make publish-pypi
+```
+
+### Publish to Docker Hub
+
+```bash
+make publish-docker
+```
 
 ## Reports
 

@@ -1,5 +1,5 @@
 + dlaczego domeny nie zostały wykorzystane do systemu telefonii?
-+ korzyści z wprowadzenia domen do systemu telfonii
++ korzyści z wprowadzenia domen do systemu telefonii
 Wprowadzenie równoległego użycia domen z numerami telefonicznymi mogłoby przynieść kilka potencjalnych korzyści:
 
 ### Łatwość zapamiętywania:

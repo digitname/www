@@ -6,7 +6,6 @@ bash git.sh
 
 
 # publish.sh
-#!/bin/bash
 echo "Starting publication process..."
 
 # Sprawdź czy jesteśmy w virtualenv
