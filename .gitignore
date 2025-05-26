@@ -1,4 +1,6 @@
 .idea
+venv
+.TODO.txt
 *.log
 __pycache__/
 *.py[cod]

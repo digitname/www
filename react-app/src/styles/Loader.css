@@ -1,0 +1,19 @@
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--background-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.loader-container p {
+  margin-top: 1rem;
+  color: var(--text-color);
+  font-size: 1.2rem;
+}
