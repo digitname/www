@@ -10,6 +10,9 @@
                 <h3>GitHub</h3>
                 <p>Username: {{ accounts.github.username }}</p>
                 <a href="https://github.com/{{ accounts.github.username }}" target="_blank" class="btn">View Profile</a>
+                <div class="stats">
+                    <span class="stat">{{ projects|selectattr('provider', 'equalto', 'GitHub')|list|length }} projects</span>
+                </div>
             </div>
             {% endif %}
             
@@ -18,6 +21,9 @@
                 <h3>NPM</h3>
                 <p>Username: {{ accounts.npm.username }}</p>
                 <a href="https://www.npmjs.com/~{{ accounts.npm.username }}" target="_blank" class="btn">View Profile</a>
+                <div class="stats">
+                    <span class="stat">{{ projects|selectattr('provider', 'equalto', 'NPM')|list|length }} packages</span>
+                </div>
             </div>
             {% endif %}
             
@@ -26,6 +32,9 @@
                 <h3>PyPI</h3>
                 <p>Username: {{ accounts.pypi.username }}</p>
                 <a href="https://pypi.org/user/{{ accounts.pypi.username }}/" target="_blank" class="btn">View Profile</a>
+                <div class="stats">
+                    <span class="stat">{{ projects|selectattr('provider', 'equalto', 'PyPI')|list|length }} packages</span>
+                </div>
             </div>
             {% endif %}
             
@@ -46,4 +55,94 @@
             {% endif %}
         </div>
     </section>
+
+    {% if projects %}
+    <section class="projects">
+        <h2>My Projects</h2>
+        
+        <!-- Group by owner (user or organization) -->
+        {% set owners = {} %}
+        {% for project in projects %}
+            {% set owner_key = project.owner ~ '|' ~ project.owner_type %}
+            {% if not owners[owner_key] %}
+                {% set _ = owners.update({owner_key: {
+                    'name': project.owner,
+                    'type': project.owner_type,
+                    'projects': []
+                }}) %}
+            {% endif %}
+            {% set _ = owners[owner_key].projects.append(project) %}
+        {% endfor %}
+        
+        {% for owner in owners.values() %}
+        <div class="owner-section">
+            <h3>
+                {% if owner.type == 'organization' %}
+                    <i class="fas fa-building"></i>
+                {% else %}
+                    <i class="fas fa-user"></i>
+                {% endif %}
+                {{ owner.name }}
+                <span class="project-count">{{ owner.projects|length }} projects</span>
+            </h3>
+            
+            <div class="projects-table-container">
+                <table class="projects-table">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Description</th>
+                            <th>Tech</th>
+                            <th>Updated</th>
+                            <th>Links</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in owner.projects %}
+                        <tr>
+                            <td class="project-name">
+                                <a href="{{ project.url }}" target="_blank">{{ project.name }}</a>
+                                {% if project.version %}
+                                <span class="version">v{{ project.version }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="project-desc">{{ project.description }}</td>
+                            <td class="project-tech">
+                                {% if project.language %}
+                                <span class="tech-badge">{{ project.language }}</span>
+                                {% endif %}
+                                {% if project.keywords %}
+                                    {% for keyword in project.keywords[:2] %}
+                                    <span class="tech-badge">{{ keyword }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                            <td class="project-updated">
+                                {% if project.updated_at %}
+                                {{ project.updated_at|datetimeformat('%Y-%m-%d') }}
+                                {% endif %}
+                            </td>
+                            <td class="project-links">
+                                <a href="{{ project.url }}" target="_blank" title="View on {{ project.provider }}">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                {% if project.provider == 'GitHub' %}
+                                <a href="{{ project.url }}/stargazers" target="_blank" title="Stars">
+                                    <i class="fas fa-star"></i> {{ project.stars }}
+                                </a>
+                                {% elif project.provider == 'NPM' and project.downloads %}
+                                <span title="Daily downloads">
+                                    <i class="fas fa-download"></i> {{ project.downloads|number_format }}
+                                </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+    {% endif %}
 {% endblock %}

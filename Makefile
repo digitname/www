@@ -1,9 +1,10 @@
-.PHONY: help build run test clean publish version deps deps-js setup-env check-env publish-npm publish-pypi publish-docker update-portfolio
+.PHONY: help build run test clean publish version deps deps-js setup-env check-env publish-npm publish-pypi publish-docker update-portfolio setup-tokens
 
 # Default target
 help:
 	@echo "Environment Setup:"
 	@echo "  setup-env       - Create .env file from example"
+	@echo "  setup-tokens    - Interactive setup for API tokens (recommended)"
 	@echo "  check-env       - Verify environment configuration"
 	@echo ""
 	@echo "Development:"
@@ -38,9 +39,24 @@ setup-env:
 	@if [ ! -f .env ]; then \
 		cp .env.example .env; \
 		echo "Created .env file from .env.example"; \
-		echo "Please edit .env with your credentials"; \
+		echo "Run 'make setup-tokens' to configure your API tokens"; \
 	else \
 		echo ".env file already exists"; \
+		echo "Run 'make setup-tokens' to configure or update your API tokens"; \
+	fi
+
+# Setup API tokens for services
+setup-tokens:
+	@echo "Setting up API tokens for services..."
+	@if [ ! -f .env ]; then \
+		$(MAKE) setup-env; \
+	fi
+	@if [ -f "scripts/setup-tokens.sh" ]; then \
+		./scripts/setup-tokens.sh; \
+	else \
+		echo "Error: setup-tokens.sh not found in scripts/"; \
+		echo "Please run this from the project root directory"; \
+		exit 1; \
 	fi
 
 check-env:
@@ -95,9 +111,15 @@ publish-npm: check-env
 	npm publish --access public
 
 # Publish to PyPI
-publish-pypi: check-env
+publish-pypi: check-env build
 	@echo "Publishing to PyPI..."
-	@echo "TODO: Add PyPI publishing logic"
+	@if [ -z "$$PYPI_TOKEN" ]; then \
+		echo "Error: PYPI_TOKEN not found in .env file"; \
+		echo "Run 'make setup-tokens' to configure your PyPI token"; \
+		exit 1; \
+	fi
+	@echo "Using PyPI token for authentication"
+	@python -m twine upload -u __token__ -p "$$PYPI_TOKEN" dist/*
 
 # Publish to Docker Hub
 publish-docker: check-env

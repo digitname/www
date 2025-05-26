@@ -53,7 +53,8 @@ A Python package to manage your development accounts and generate a portfolio ba
 
 - Centralized management of development accounts (GitHub, NPM, PyPI, Docker Hub, GitLab)
 - Beautiful, responsive portfolio generation
-- Easy configuration with TOML files
+- Interactive token setup assistant
+- Secure environment variable management
 - Extensible architecture for adding more platforms
 - Command-line interface for easy management
 
@@ -81,11 +82,40 @@ poetry shell
 
 ## 🛠️ Usage
 
+### Quick Start
+
+1. **Setup Environment**
+   ```bash
+   # Create .env file from example
+   make setup-env
+   
+   # Run interactive token setup (recommended)
+   make setup-tokens
+   ```
+   This will guide you through setting up all required API tokens.
+
+2. **Generate Your Portfolio**
+   ```bash
+   # Install in development mode
+   pip install -e .
+   
+   # Generate your portfolio
+   python -m digitname generate-portfolio
+   ```
+   This will generate your portfolio in the `portfolio` directory by default.
+
+3. **View Your Portfolio**
+   Open `portfolio/index.html` in your web browser.
+
+### Manual Configuration (Alternative)
+
+If you prefer to set up tokens manually:
+
 1. **Initialize Configuration**
    ```bash
    python -m digitname init
    ```
-   This will create a `config/accounts.toml` file with default values.
+   This creates a `config/accounts.toml` file with default values.
 
 2. **Edit Configuration**
    Update the `config/accounts.toml` file with your account details:
@@ -102,15 +132,6 @@ poetry shell
    # ... other services
    ```
 
-3. **Generate Your Portfolio**
-   ```bash
-   python -m digitname generate-portfolio
-   ```
-   This will generate your portfolio in the `portfolio` directory by default.
-
-4. **View Your Portfolio**
-   Open `portfolio/index.html` in your web browser.
-
 ## 🛠 Development
 
 ### Project Structure
@@ -123,6 +144,9 @@ poetry shell
 │   ├── cli.py            # Command-line interface
 │   ├── portfolio.py      # Portfolio generation
 │   └── templates/        # HTML/CSS/JS templates
+├── scripts/              # Utility scripts
+│   ├── setup-tokens.py   # Interactive token setup
+│   └── setup-tokens.sh   # Setup script wrapper
 ├── tests/                # Test files
 ├── config/               # Configuration files
 ├── portfolio/            # Generated portfolio (created after first run)
@@ -133,6 +157,12 @@ poetry shell
 
 ### Available Commands
 
+#### Setup
+- `make setup-env` - Create .env file from example
+- `make setup-tokens` - Interactive setup for API tokens (recommended)
+- `make check-env` - Verify environment configuration
+
+#### Development
 - `make install` - Install dependencies
 - `make test` - Run tests
 - `make lint` - Run linters
@@ -141,6 +171,26 @@ poetry shell
 - `make build` - Build package
 - `make publish` - Publish to PyPI
 - `make portfolio` - Generate portfolio
+
+### Token Management
+
+Use the interactive token setup for the best experience:
+
+```bash
+make setup-tokens
+```
+
+This will guide you through:
+1. Opening the token generation pages in your browser
+2. Generating tokens with the correct permissions
+3. Securely storing them in your local `.env` file
+
+Supported services:
+- GitHub
+- NPM
+- PyPI
+- Docker Hub
+- GitLab
 
 ## 🤝 Contributing
 
@@ -242,7 +292,7 @@ NPM_TOKEN=your_npm_token
 
 ### Adding a New Project
 
-1. Add your project image to `assets/portfolio/` (e.g., `myproject.jpg`)
+1. Add your project image to `assets/portfolio/` (e.g., `myproject.jpg` or `myproject.png`)
 2. Run the portfolio update script:
    ```bash
    make update-portfolio
@@ -256,22 +306,52 @@ NPM_TOKEN=your_npm_token
 
 ```json
 {
-  "lastUpdated": "2025-05-26T21:00:00.000Z",
+  "lastUpdated": "2025-05-26T22:48:00.245Z",
   "items": [
     {
-      "id": "project-id",
-      "title": "Project Name",
-      "description": "Project description",
-      "image": "project.jpg",
-      "thumbnail": "thumbnails/project.jpg",
-      "icon": "icons/project.jpg",
-      "url": "https://example.com",
-      "tags": ["web", "react"],
-      "date": "2025-01-01"
+      "id": "test-project",
+      "title": "Test Project",
+      "description": "Description for test-project",
+      "image": "test-project.png",
+      "url": "https://example.com/projects/test-project",
+      "tags": ["web", "design"],
+      "date": "2025-05-26",
+      "metadata": {
+        "width": 1,
+        "height": 1,
+        "format": "png",
+        "size": "0.07 KB"
+      },
+      "thumbnail": "thumbnails/test-project.png",
+      "icon": "icons/test-project.png"
     }
-  ]
+  ],
+  "stats": {
+    "totalItems": 1,
+    "lastUpdated": "2025-05-26T22:48:00.245Z"
+  }
 }
 ```
+
+### Supported Image Formats
+- `.jpg` / `.jpeg`
+- `.png`
+- `.webp`
+
+### Thumbnails and Icons
+- Thumbnails are generated at 400x300px (JPEG format, 80% quality)
+- Icons are generated at 100x100px (PNG format, 90% quality)
+- Original aspect ratio is maintained with `cover` fit
+- Images are never enlarged beyond their original dimensions
+
+## 🚀 My Projects
+
+Here are some of my recent projects:
+
+### [Test Project](https://example.com/projects/test-project)
+- **Description**: Description for test-project
+- **Technologies**: Web, Design
+- **Last Updated**: May 26, 2025
 
 ## 📦 Publishing
 
@@ -283,9 +363,24 @@ make publish-npm
 
 ### Publish to PyPI
 
-```bash
-make publish-pypi
-```
+1. First, make sure you have set up your PyPI token:
+   ```bash
+   make setup-tokens
+   # Select PyPI and follow the instructions
+   ```
+
+2. Build and publish the package:
+   ```bash
+   make build
+   make publish-pypi
+   ```
+
+   The publish command will use the `PYPI_TOKEN` from your `.env` file for authentication.
+
+3. If you need to use the token directly with twine:
+   ```bash
+   python -m twine upload -u __token__ -p ${PYPI_TOKEN} dist/*
+   ```
 
 ### Publish to Docker Hub
 

@@ -1,5 +1,6 @@
-""
+"""
 Account management module for DigitName.
+
 Handles authentication and API interactions with various development platforms.
 """
 
