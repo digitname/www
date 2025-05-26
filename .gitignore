@@ -1,4 +1,6 @@
 .idea
+accounts.toml
+package-lock.json
 venv
 .TODO.txt
 *.log
