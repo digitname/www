@@ -1,0 +1,181 @@
+version: '3.8'
+
+services:
+  # PHP Application
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: digitname-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - .:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - digitname-network
+
+  # Nginx Web Server
+  nginx:
+    image: nginx:alpine
+    container_name: digitname-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - digitname-network
+    depends_on:
+      - app
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: digitname-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-digitname}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_USER: ${DB_USERNAME:-digitname}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - "3306:3306"
+    networks:
+      - digitname-network
+
+  # Redis Cache
+  redis:
+    image: redis:alpine
+    container_name: digitname-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    networks:
+      - digitname-network
+
+  # MailHog for Email Testing
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: digitname-mailhog
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # Web UI
+    networks:
+      - digitname-network
+
+  # PHPMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: digitname-phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ${DB_PASSWORD:-secret}
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - digitname-network
+
+  # Node.js for Frontend
+  node:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    container_name: digitname-node
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - /var/www/node_modules
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    networks:
+      - digitname-network
+    depends_on:
+      - app
+
+  # Selenium for Browser Testing
+  selenium-hub:
+    image: selenium/hub:4.1
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    networks:
+      - digitname-network
+
+  chrome:
+    image: selenium/node-chrome:4.1
+    container_name: chrome
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+    shm_size: 2gb
+    networks:
+      - digitname-network
+
+  firefox:
+    image: selenium/node-firefox:4.1
+    container_name: firefox
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+    shm_size: 2gb
+    networks:
+      - digitname-network
+
+  # Traefik for Reverse Proxy (optional)
+  traefik:
+    image: traefik:v2.5
+    container_name: digitname-traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8081:8080" # Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - digitname-network
+
+networks:
+  digitname-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
+  redisdata:
+    driver: local

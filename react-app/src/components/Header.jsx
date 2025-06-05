@@ -1,5 +1,6 @@
-import { AppShell, Group, Title, Anchor, Container } from '@mantine/core';
+import { AppShell, Group, Title, Anchor, Container, Menu, ActionIcon } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import { IconBox, IconCode, IconBrandDocker, IconBrandNpm } from '@tabler/icons-react';
 
 const HeaderComponent = () => (
   <AppShell.Header p="md" withBorder={false}>
@@ -11,9 +12,35 @@ const HeaderComponent = () => (
               Tom Sapletta
             </Anchor>
           </Title>
-          <Anchor component={Link} to="/portfolio" c="dimmed">
-            DigitName Portfolio
-          </Anchor>
+          <Menu shadow="md" width={200}>
+            <Menu.Target>
+              <Anchor component="button" c="dimmed">
+                Explorer
+              </Anchor>
+            </Menu.Target>
+
+            <Menu.Dropdown>
+              <Menu.Label>Portfolio</Menu.Label>
+              <Menu.Item 
+                component={Link} 
+                to="/portfolio" 
+                icon={<IconBox size={14} />}
+              >
+                Projects
+              </Menu.Item>
+
+              <Menu.Divider />
+              
+              <Menu.Label>Registries</Menu.Label>
+              <Menu.Item 
+                component={Link} 
+                to="/registry" 
+                icon={<IconCode size={14} />}
+              >
+                Registry Explorer
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </Group>
         <nav>
           <Group>

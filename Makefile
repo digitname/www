@@ -1,4 +1,16 @@
-.PHONY: help build run test clean publish version deps deps-js setup-env check-env publish-npm publish-pypi publish-docker update-portfolio setup-tokens
+# Port configurations
+DEV_PORT := 8003
+PROD_PORT := 8001
+PYTHON := python
+NPM := npm
+
+# Project directories
+REACT_APP_DIR := react-app
+DIST_DIR := $(REACT_APP_DIR)/dist
+
+.PHONY: help build run test clean publish version deps deps-js setup-env check-env \
+        publish-npm publish-pypi publish-docker update-portfolio setup-tokens \
+        start stop stop-all status install format lint
 
 # Default target
 help:
@@ -73,17 +85,57 @@ deps: deps-js
 # Install JavaScript dependencies
 deps-js: check-env
 	@echo "Installing Node.js dependencies..."
-	cd react-app && npm install
+	@cd $(REACT_APP_DIR) && $(NPM) install --legacy-peer-deps
 
 # Build the project
 build: check-env
 	@echo "Building project..."
-	cd react-app && npm run build
+	@cd $(REACT_APP_DIR) && $(NPM) run build
+	@echo "Build complete. Files are in $(DIST_DIR)"
 
-# Run the development server on port 8003
-run: check-env
-	@echo "Starting development server on port 8003..."
-	cd react-app && npm run dev -- --port 8003
+# Run the development server
+dev: check-env stop-dev
+	@echo "Starting development server on port $(DEV_PORT)..."
+	@cd $(REACT_APP_DIR) && $(NPM) run dev -- --port $(DEV_PORT) &
+
+# Start the production server
+start: check-env stop-prod build
+	@echo "Starting production server on port $(PROD_PORT) (http://localhost:$(PROD_PORT))..."
+	@if [ -f "$(DIST_DIR)/index.html" ]; then \
+		cd $(DIST_DIR) && $(PYTHON) -m http.server $(PROD_PORT) & \
+		echo "Production server started at http://localhost:$(PROD_PORT)"; \
+	else \
+		echo "Error: Build files not found. Run 'make build' first." >&2; \
+		exit 1; \
+	fi
+
+# Stop all running server processes
+stop: stop-dev stop-prod
+
+# Stop development server
+stop-dev:
+	@echo "Stopping development server..."
+	@-pkill -f "vite.*--port $(DEV_PORT)" 2>/dev/null || echo "No development server found on port $(DEV_PORT)"
+
+# Stop production server
+stop-prod:
+	@echo "Stopping production server..."
+	@-pkill -f "python.*http.server $(PROD_PORT)" 2>/dev/null || echo "No production server found on port $(PROD_PORT)"
+
+# Stop all related services (including Docker containers)
+stop-all: stop
+	@echo "Stopping all related services..."
+	@-docker ps -q --filter "name=digitname" | xargs -r docker stop 2>/dev/null || echo "No Docker containers found"
+
+# Show status of running services
+status:
+	@echo "=== Running Services ==="
+	@echo "Development server (port $(DEV_PORT)):"
+	@-pgrep -f "vite.*--port $(DEV_PORT)" >/dev/null && echo "  [RUNNING]" || echo "  [STOPPED]"
+	@echo "Production server (port $(PROD_PORT)):"
+	@-pgrep -f "python.*http.server $(PROD_PORT)" >/dev/null && echo "  [RUNNING]" || echo "  [STOPPED]"
+	@echo "Docker containers:"
+	@-docker ps --filter "name=digitname" --format "{{.Names}} ({{.Status}})" 2>/dev/null || echo "  No containers found"
 
 # Run tests
 test: check-env
@@ -91,7 +143,7 @@ test: check-env
 	cd react-app && npm test
 
 # Clean build artifacts
-clean:
+clean: stop
 	@echo "Cleaning up..."
 	cd react-app && rm -rf node_modules dist
 	find . -type d -name 'node_modules' -exec rm -rf {} +
@@ -153,7 +205,7 @@ release: version
 
 
 
-.PHONY: install test lint format clean build publish docs portfolio
+.PHONY: install test lint format clean build publish docs run portfolio
 
 # Project variables
 PACKAGE_NAME = digitname
