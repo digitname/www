@@ -2,6 +2,7 @@
 accounts.toml
 package-lock.json
 venv
+.db
 .TODO.txt
 *.log
 __pycache__/

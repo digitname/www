@@ -295,45 +295,57 @@ class PortfolioUpdater:
             print("⚠️  PyPI username not found in .env")
             return []
             
-        # Note: PyPI doesn't have a direct endpoint to list packages by user
-        # This is a workaround using the PyPI simple API
         try:
             print(f"🔍 Fetching PyPI packages for {username}...")
-            response = requests.get(
-                f"https://pypi.org/simple/?q=author%3A{username}",
-                headers={"Accept": "application/vnd.pypi.simple.v1+json"},
-                timeout=10
-            )
-            response.raise_for_status()
-            data = response.json()
+            
+            # First, get all packages by the user
+            url = f"https://pypi.org/pypi/{username}/json"
+            user_data = self._make_api_request(url)
             
             packages = []
-            for package in data.get("results", []):
-                pkg_name = package["name"]
-                pkg_url = f"https://pypi.org/pypi/{pkg_name}/json"
-                pkg_data = self._make_api_request(pkg_url)
-                
-                if pkg_data and pkg_data.get("info", {}).get("author") == username:
-                    info = pkg_data["info"]
-                    releases = pkg_data.get("releases", {})
-                    latest_release = max(releases.keys()) if releases else ""
-                    
-                    packages.append({
-                        "name": pkg_name,
-                        "full_name": pkg_name,
-                        "description": info.get("summary", ""),
-                        "url": info.get("package_url", f"https://pypi.org/project/{pkg_name}/"),
-                        "version": info.get("version", ""),
-                        "downloads": info.get("downloads", {}).get("last_month", 0),
-                        "created_at": info.get("release_url", "").split("/")[-2] if info.get("release_url") else "",
-                        "updated_at": latest_release,
-                        "source": "pypi"
-                    })
+            if user_data and 'releases' in user_data:
+                for package_name in user_data.get('releases', {}).keys():
+                    try:
+                        # Get package details
+                        pkg_url = f"https://pypi.org/pypi/{package_name}/json"
+                        pkg_data = self._make_api_request(pkg_url)
+                        
+                        if not pkg_data or 'info' not in pkg_data:
+                            continue
+                            
+                        info = pkg_data['info']
+                        
+                        # Skip if not the author
+                        if info.get('author') != username and username not in (info.get('maintainer') or ''):
+                            continue
+                            
+                        # Get latest release info
+                        releases = pkg_data.get('releases', {})
+                        latest_release = max(releases.keys()) if releases else ""
+                        
+                        packages.append({
+                            "name": package_name,
+                            "full_name": package_name,
+                            "description": info.get('summary', info.get('description', '')),
+                            "url": info.get('package_url', f"https://pypi.org/project/{package_name}/"),
+                            "version": info.get('version', ''),
+                            "downloads": info.get('downloads', {}).get('last_month', 0),
+                            "created_at": info.get('release_url', '').split('/')[-2] if info.get('release_url') else "",
+                            "updated_at": latest_release or info.get('upload_time', ''),
+                            "source": "pypi"
+                        })
+                        
+                    except Exception as pkg_error:
+                        print(f"⚠️  Error processing PyPI package {package_name}: {pkg_error}")
+                        continue
             
+            print(f"✅ Found {len(packages)} PyPI packages")
             return packages
             
-        except requests.RequestException as e:
+        except Exception as e:
             print(f"❌ Error fetching PyPI packages: {e}")
+            import traceback
+            traceback.print_exc()
             return []
     
     def _get_dockerhub_repos(self) -> List[Dict]:

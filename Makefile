@@ -1,8 +1,12 @@
 # Port configurations
 DEV_PORT := 8003
 PROD_PORT := 8001
-PYTHON := python
+PORTFOLIO_PORT := 8000
+PYTHON := python3
 NPM := npm
+
+# PID files
+PORTFOLIO_PID := /tmp/portfolio_server.pid
 
 # Project directories
 REACT_APP_DIR := react-app
@@ -141,10 +145,49 @@ status:
 # ========================
 
 # Update portfolio data from all sources
+# Portfolio server management
+start-portfolio:
+	@echo "🚀 Starting portfolio server..."
+	@if [ -f $(PORTFOLIO_PID) ]; then \
+		echo "Portfolio server is already running"; \
+	else \
+		cd portfolio && $(PYTHON) serve.py & \
+		echo $$! > $(PORTFOLIO_PID); \
+		echo "Portfolio server started (check console for URL)"; \
+	fi
+
+stop-portfolio:
+	@echo "🛑 Stopping portfolio server..."
+	@if [ -f $(PORTFOLIO_PID) ]; then \
+		kill -9 $$(cat $(PORTFOLIO_PID)) 2>/dev/null || true; \
+		rm -f $(PORTFOLIO_PID); \
+		echo "Portfolio server stopped"; \
+	else \
+		echo "No portfolio server is running"; \
+	fi
+
+restart-portfolio: stop-portfolio start-portfolio
+
+# Update portfolio data
 update-portfolio:
 	@echo "🔄 Updating portfolio data..."
-	@python scripts/update_portfolio_repos.py
-	@python scripts/generate_portfolio.py
+	@$(PYTHON) scripts/update_portfolio_repos.py
+
+# Start all services
+start: start-portfolio
+
+# Stop all services
+stop: stop-portfolio
+
+# Restart all services
+restart: restart-portfolio
+
+# Clean up
+clean: stop-portfolio
+	@echo "🧹 Cleaning up..."
+	@find . -type d -name '__pycache__' -exec rm -rf {} +
+	@find . -type f -name '*.py[co]' -delete
+	@rm -f $(PORTFOLIO_PID)
 
 # Serve the portfolio using the Python server script
 serve-portfolio: update-portfolio
