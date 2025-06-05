@@ -5,105 +5,123 @@ Command-line interface for DigitName.
 import os
 import sys
 import typer
+from typing import Optional, List
 from pathlib import Path
-from typing import Optional
+from dotenv import load_dotenv
 
 from .accounts import AccountManager
 from .portfolio import PortfolioGenerator
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = typer.Typer(help="DigitName - Manage your development accounts and generate portfolio.")
 
 @app.command()
 def init():
-    """Initialize the configuration file with default values."""
-    config_path = Path("config/accounts.toml")
-    if config_path.exists():
-        typer.echo("Configuration file already exists. Use 'update' command to modify it.")
-        return
-    
-    # Create config directory if it doesn't exist
-    config_path.parent.mkdir(parents=True, exist_ok=True)
-    
-    # Create default config
-    default_config = """# Configuration for development accounts
-[github]
-username = "your_github_username"
-token = "your_github_token"  # Generate at: https://github.com/settings/tokens
+    """Display instructions for setting up environment variables."""
+    env_example = """# Required Environment Variables
 
-[npm]
-username = "your_npm_username"
-email = "your.email@example.com"
-token = "your_npm_token"  # Get from: https://www.npmjs.com/settings/~/tokens
+# GitHub Configuration
+GITHUB_USERNAME=your_github_username
+GITHUB_TOKEN=your_github_token  # Generate at: https://github.com/settings/tokens
+GITHUB_EMAIL=your.email@example.com
 
-[pypi]
-username = "your_pypi_username"
-password = "your_pypi_password"
+# NPM Configuration
+NPM_USERNAME=your_npm_username
+NPM_EMAIL=your.email@example.com
+NPM_TOKEN=your_npm_token  # Get from: https://www.npmjs.com/settings/~/tokens
 
-[docker]
-username = "your_docker_username"
-password = "your_docker_password"
+# PyPI Configuration
+PYPI_USERNAME=your_pypi_username
+PYPI_TOKEN=your_pypi_token  # Get from: https://pypi.org/manage/account/token/
+PYPI_EMAIL=your.email@example.com
 
-[gitlab]
-username = "your_gitlab_username"
-token = "your_gitlab_token"  # Create at: https://gitlab.com/-/profile/personal_access_tokens
+# Docker Hub Configuration
+DOCKERHUB_USERNAME=your_docker_username
+DOCKERHUB_TOKEN=your_docker_token  # Get from: https://hub.docker.com/settings/security
 
-[portfolio]
-output_dir = "./portfolio"
-template = "default"  # Options: default, modern, minimal
-include_private = false  # Whether to include private repositories
+# GitLab Configuration
+GITLAB_USERNAME=your_gitlab_username
+GITLAB_TOKEN=your_gitlab_token  # Create at: https://gitlab.com/-/profile/personal_access_tokens
+GITLAB_EMAIL=your.email@example.com
 
-[theme]
-primary_color = "#2563eb"
-secondary_color = "#7c3aed"
-background_color = "#ffffff"
-text_color = "#1f2937"
-font_family = "Inter, sans-serif"
+# Portfolio Configuration
+PORTFOLIO_OUTPUT_DIR=./portfolio
 """
     
-    with open(config_path, 'w') as f:
-        f.write(default_config)
+    env_path = Path(".env")
+    if env_path.exists():
+        typer.echo("Found existing .env file. Here's an example configuration:")
+    else:
+        with open(env_path, 'w') as f:
+            f.write(env_example)
+        typer.echo(f"Created .env file at {env_path.absolute()}")
     
-    typer.echo(f"Configuration file created at {config_path}")
-    typer.echo("Please update it with your account information.")
+    typer.echo("\nPlease update the .env file with your account details and then run:")
+    typer.echo("$ source .env  # Load the environment variables")
+    typer.echo("$ digitname check  # Verify your configuration")
+
 
 @app.command()
-def update_account(
-    service: str = typer.Argument(..., help="Service name (github, npm, pypi, docker, gitlab)"),
-    key: str = typer.Argument(..., help="Configuration key to update"),
-    value: str = typer.Argument(..., help="New value for the configuration key"),
-):
-    """Update account configuration."""
+def check():
+    """Verify the current configuration."""
     try:
         manager = AccountManager()
-        manager.update_account(service, **{key: value})
-        typer.echo(f"Updated {service}.{key}")
+        config = manager.config
+        
+        if not config:
+            typer.echo("No configuration found. Please run 'init' to set up your .env file.", err=True)
+            raise typer.Exit(1)
+        
+        typer.echo("Current configuration:")
+        for service, data in config.items():
+            typer.echo(f"\n{service.upper()}:")
+            for key, value in data.items():
+                # Mask sensitive values
+                if any(s in key.lower() for s in ['token', 'password', 'secret']):
+                    value = "*" * 8 if value else "(not set)"
+                typer.echo(f"  {key}: {value}")
+        
+        typer.echo("\nConfiguration looks good!")
+        
     except Exception as e:
         typer.echo(f"Error: {str(e)}", err=True)
         raise typer.Exit(1)
 
+
 @app.command()
-def generate_portfolio():
-    """Generate the portfolio website based on the current configuration."""
+def generate_portfolio(
+    output_dir: str = typer.Option(
+        os.getenv("PORTFOLIO_OUTPUT_DIR", "./portfolio"),
+        "--output", "-o",
+        help="Output directory for the generated portfolio"
+    )
+):
+    """Generate the portfolio website."""
     try:
-        # Load configuration
-        manager = AccountManager()
-        config = manager.config
+        # Create output directory if it doesn't exist
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
         
-        # Initialize portfolio generator
-        portfolio_config = config.get("portfolio", {})
-        generator = PortfolioGenerator(portfolio_config)
+        # Initialize the generator with the output directory
+        generator = PortfolioGenerator({
+            'output_dir': str(output_path.absolute())
+        })
         
-        # Generate portfolio
-        generator.generate(account_data=config)
+        # Generate the portfolio
+        result_path = generator.generate()
+        typer.echo(f"Portfolio generated at: {result_path}")
         
-        typer.echo(f"Portfolio generated at: {portfolio_config.get('output_dir', 'portfolio')}")
     except Exception as e:
         typer.echo(f"Error generating portfolio: {str(e)}", err=True)
         raise typer.Exit(1)
 
+
 def main():
     """Entry point for the CLI."""
     app()
+
 
 if __name__ == "__main__":
     main()

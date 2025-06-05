@@ -4,6 +4,7 @@
 [![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Mantine](https://img.shields.io/badge/Mantine-228BE6?style=flat&logo=react&logoColor=white)](https://mantine.dev/)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 
 Digital naming and domain management tools and resources, now rebuilt with modern web technologies.
 
@@ -12,17 +13,21 @@ Digital naming and domain management tools and resources, now rebuilt with moder
 - ⚡ Blazing fast performance with Vite
 - 🎨 Beautiful UI components with Mantine
 - 📱 Fully responsive design
-- 🔄 Easy content updates through configuration
 - 🔒 Secure environment variable management
 - 🏗️ Modern React architecture
+- 🐍 Python backend with environment-based configuration
+- 🔄 Easy content updates through environment variables
 
 ## 🛠️ Prerequisites
 
 - Node.js 16.x or higher
 - npm 8.x or higher (comes with Node.js)
+- Python 3.8 or higher
 - Git
 
 ## 🚀 Quick Start
+
+### Frontend Development
 
 1. **Clone the repository**
    ```bash
@@ -30,24 +35,114 @@ Digital naming and domain management tools and resources, now rebuilt with moder
    cd www
    ```
 
-2. **Run the setup script**
+2. **Set up environment variables**
    ```bash
-   ./scripts/setup-env.sh
+   cp .env.example .env
+   # Edit .env file with your configuration
    ```
-   This will:
-   - Create a `.env` file from the example
-   - Set up required directories
-   - Install all dependencies
 
-3. **Start the development server**
+3. **Install dependencies**
    ```bash
-   make run
+   npm install
    ```
-   The application will be available at `http://localhost:5173`
 
-# DigitName
+4. **Start the development server**
+   ```bash
+   make dev
+   ```
+   The frontend will be available at `http://localhost:3000`
 
-A Python package to manage your development accounts and generate a portfolio based on your activity across various platforms.
+### Backend Development
+
+1. **Set up Python environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+
+2. **Initialize the application**
+   ```bash
+   # Install the package in development mode
+   pip install -e .
+   
+   # Initialize environment variables
+   digitname init
+   ```
+
+3. **Check your configuration**
+   ```bash
+   digitname check
+   ```
+
+4. **Generate your portfolio**
+   ```bash
+   digitname generate-portfolio
+   ```
+
+## 📝 Configuration
+
+All configuration is managed through environment variables in the `.env` file. The application will automatically load these variables when started.
+
+### Required Environment Variables
+
+```env
+# GitHub Configuration
+GITHUB_USERNAME=your_github_username
+GITHUB_TOKEN=your_github_token
+GITHUB_EMAIL=your.email@example.com
+
+# NPM Configuration
+NPM_USERNAME=your_npm_username
+NPM_EMAIL=your.email@example.com
+NPM_TOKEN=your_npm_token
+
+# PyPI Configuration
+PYPI_USERNAME=your_pypi_username
+PYPI_TOKEN=your_pypi_token
+PYPI_EMAIL=your.email@example.com
+
+# Docker Hub Configuration
+DOCKERHUB_USERNAME=your_docker_username
+DOCKERHUB_TOKEN=your_docker_token
+
+# GitLab Configuration
+GITLAB_USERNAME=your_gitlab_username
+GITLAB_TOKEN=your_gitlab_token
+GITLAB_EMAIL=your.email@example.com
+
+# Portfolio Configuration
+PORTFOLIO_OUTPUT_DIR=./portfolio
+```
+
+## 🔧 Available Commands
+
+- `digitname init` - Initialize the application and create a `.env` file
+- `digitname check` - Verify your current configuration
+- `digitname generate-portfolio` - Generate your portfolio website
+- `make dev` - Start the development server
+- `make build` - Build the application for production
+- `make test` - Run tests
+
+## 🐳 Docker Support
+
+You can also run the application using Docker:
+
+```bash
+# Build the Docker image
+docker build -t digitname .
+
+# Run the application
+docker run -p 3000:3000 --env-file .env digitname
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on how to contribute to this project.
+
+## 📄 License
+
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
 
 ## 🚀 Features
 
