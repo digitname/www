@@ -137,6 +137,24 @@ status:
 	@echo "Docker containers:"
 	@-docker ps --filter "name=digitname" --format "{{.Names}} ({{.Status}})" 2>/dev/null || echo "  No containers found"
 
+# Portfolio Commands
+# ========================
+
+# Update portfolio data from all sources
+update-portfolio:
+	@echo "🔄 Updating portfolio data..."
+	@python scripts/update_portfolio_repos.py
+	@python scripts/generate_portfolio.py
+
+# Serve the portfolio using the Python server script
+serve-portfolio: update-portfolio
+	@echo "🚀 Starting portfolio server..."
+	@python scripts/serve_portfolio.py
+
+# ========================
+# Development Commands
+# ========================
+
 # Run tests
 test: check-env
 	@echo "Running tests..."
