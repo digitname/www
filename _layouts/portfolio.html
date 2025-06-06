@@ -1,0 +1,68 @@
+---
+layout: default
+---
+
+<article class="portfolio-page">
+  <header class="page-header">
+    <h1 class="page-title">Portfolio</h1>
+    <p class="page-description">A collection of my projects and contributions</p>
+  </header>
+
+  <div class="portfolio-filters">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search projects...">
+    </div>
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="devops">DevOps</button>
+      <button class="filter-btn" data-filter="web">Web</button>
+      <button class="filter-btn" data-filter="iot">IoT</button>
+      <button class="filter-btn" data-filter="research">Research</button>
+    </div>
+  </div>
+
+  <div class="portfolio-grid" id="portfolioGrid">
+    {% for project in site.portfolio %}
+    <div class="portfolio-item" data-category="{{ project.category | downcase }}" data-tags="{{ project.tags | join: ' ' | downcase }}">
+      <div class="portfolio-card">
+        <div class="portfolio-image">
+          {% if project.image %}
+          <img src="{{ project.image | relative_url }}" alt="{{ project.title }}">
+          {% else %}
+          <div class="placeholder-image">
+            <i class="fas fa-code"></i>
+          </div>
+          {% endif %}
+          <div class="portfolio-links">
+            {% if project.github %}
+            <a href="{{ project.github }}" target="_blank" rel="noopener noreferrer" title="View on GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+            {% endif %}
+            {% if project.demo %}
+            <a href="{{ project.demo }}" target="_blank" rel="noopener noreferrer" title="Live Demo">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="portfolio-content">
+          <h3>{{ project.title }}</h3>
+          <p class="portfolio-description">{{ project.description }}</p>
+          <div class="portfolio-tags">
+            {% for tag in project.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="no-results" id="noResults" style="display: none;">
+    <i class="fas fa-search"></i>
+    <p>No projects found matching your search.</p>
+  </div>
+</article>
