@@ -1,7 +1,10 @@
-// Main Application Entry Point
+/**
+ * Main Application Class
+ * Initializes and coordinates all application modules
+ */
 import { debounce } from './utils/helpers.js';
-import portfolioConfig from './config/portfolio-config.js';
-import { Portfolio } from './portfolio.js';
+import { Portfolio } from './modules/portfolio.js';
+import { DarkMode } from './modules/dark-mode.js';
 
 class App {
   constructor() {
@@ -12,6 +15,11 @@ class App {
   async initialize() {
     // Initialize components when DOM is loaded
     document.addEventListener('DOMContentLoaded', async () => {
+      // Initialize dark mode if the toggle exists
+      if (document.getElementById('dark-mode-toggle')) {
+        this.darkMode = new DarkMode();
+      }
+
       // Initialize core components
       this.initMobileMenu();
       this.initSmoothScrolling();
@@ -26,6 +34,9 @@ class App {
       }
       
       this.addEventListeners();
+      
+      // Hide loader when everything is ready
+      this.hideLoader();
     });
   }
 
@@ -166,27 +177,91 @@ class App {
     handleScroll(); // Initial check
   }
 
+  /**
+   * Initialize analytics if available
+   */
   initAnalytics() {
-    // Initialize analytics if needed
+    // Initialize Google Analytics if available
     if (typeof gtag !== 'undefined') {
       gtag('config', 'YOUR-GA-TRACKING-ID');
+    }
+  }
+  
+  /**
+   * Hide the loading overlay when everything is ready
+   */
+  hideLoader() {
+    const loader = document.getElementById('loader');
+    if (loader) {
+      // Add a small delay to ensure everything is rendered
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        // Remove from DOM after animation completes
+        setTimeout(() => {
+          if (loader.parentNode) {
+            loader.parentNode.removeChild(loader);
+          }
+        }, 500);
+      }, 300);
     }
   }
 
   addEventListeners() {
     // Handle window resize with debounce
-    window.addEventListener('resize', debounce(() => {
+    const handleResize = debounce(() => {
       // Handle responsive layout changes
-    }, 250));
-
+      this.handleResponsiveChanges();
+    }, 250);
+    
+    window.addEventListener('resize', handleResize);
+    
     // Handle print styles
-    window.matchMedia('print').addListener(mql => {
+    const printMediaQuery = window.matchMedia('print');
+    const handlePrintChange = (mql) => {
       if (mql.matches) {
         document.body.classList.add('printing');
       } else {
         document.body.classList.remove('printing');
       }
-    });
+    };
+    
+    // Add listener for older browsers
+    if (printMediaQuery.addEventListener) {
+      printMediaQuery.addEventListener('change', handlePrintChange);
+    } else {
+      printMediaQuery.addListener(handlePrintChange);
+    }
+    
+    // Clean up event listeners when needed
+    this.cleanup = () => {
+      window.removeEventListener('resize', handleResize);
+      if (printMediaQuery.removeEventListener) {
+        printMediaQuery.removeEventListener('change', handlePrintChange);
+      } else {
+        printMediaQuery.removeListener(handlePrintChange);
+      }
+    };
+  }
+  
+  /**
+   * Handle responsive layout changes
+   */
+  handleResponsiveChanges() {
+    // Add any responsive layout logic here
+  }
+  
+  /**
+   * Clean up event listeners and resources
+   */
+  destroy() {
+    if (typeof this.cleanup === 'function') {
+      this.cleanup();
+    }
+    
+    // Clean up any other resources
+    if (this.portfolio && typeof this.portfolio.destroy === 'function') {
+      this.portfolio.destroy();
+    }
   }
 }
 

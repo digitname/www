@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "title": "Python Packages",
+      "description": "Creator of numerous Python libraries including pifunc, mdirtree, markdown2code, dynapsys, and others available on PyPI.",
+      "url": "https://pypi.org/user/tom-sapletta-com/",
+      "image": "/assets/images/projects/python-packages.jpg",
+      "tags": ["Python", "Open Source", "Libraries"],
+      "category": "development"
+    },
+    {
+      "id": 2,
+      "title": "AskDomainer",
+      "description": "Domain consultation service helping users find and manage domain names effectively.",
+      "url": "https://www.askdomainer.com/",
+      "image": "/assets/images/projects/askdomainer.jpg",
+      "tags": ["Domains", "Consulting", "Web"],
+      "category": "business"
+    },
+    {
+      "id": 3,
+      "title": "Digitname",
+      "description": "Portfolio and professional showcase website built with modern web technologies.",
+      "url": "https://digitname.com",
+      "image": "/assets/images/projects/digitname.jpg",
+      "tags": ["Web Development", "Portfolio", "Responsive Design"],
+      "category": "development"
+    },
+    {
+      "id": 4,
+      "title": "WebStream",
+      "description": "A modern web development framework for building fast and scalable applications.",
+      "url": "https://modules.webstream.dev",
+      "image": "/assets/images/projects/webstream.jpg",
+      "tags": ["Framework", "JavaScript", "Web Development"],
+      "category": "development"
+    }
+  ]
+}

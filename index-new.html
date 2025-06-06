@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional portfolio of Tom Sapletta - Full Stack Developer & System Architect">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tom's Portfolio">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/icon-192x192.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <title>Tom Sapletta - Professional Portfolio</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/portfolio-section.css">
+    
+    <!-- Scripts -->
+    <script src="https://valid-links.digitname.com/valid-links.js" defer></script>
+    
+    <!-- Initialize service worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('ServiceWorker registration successful');
+            })
+            .catch(err => {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+      }
+    </script>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">Tom Sapletta</div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#portfolio">Portfolio</a>
+                <a href="#contact">Contact</a>
+                <button id="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <button class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Tom Sapletta</h1>
+                <h2>Full Stack Developer & System Architect</h2>
+                <p>Building scalable web applications and digital experiences</p>
+                <div class="cta-buttons">
+                    <a href="#portfolio" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Contact Me</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="portfolio-section">
+            <div class="section-header">
+                <h2>Featured Projects</h2>
+                <p class="section-subtitle">Here are some of my recent projects and contributions.</p>
+            </div>
+            
+            <!-- Portfolio Filters -->
+            <div class="portfolio-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="development">Development</button>
+                <button class="filter-btn" data-filter="business">Business</button>
+                <button class="filter-btn" data-filter="design">Design</button>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="portfolio-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading portfolio items...</p>
+            </div>
+            
+            <!-- Error State -->
+            <div id="portfolio-error" style="display: none;"></div>
+            
+            <!-- Portfolio Grid -->
+            <div id="portfolio-grid" class="portfolio-grid">
+                <!-- Portfolio items will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="container">
+                <h2>About Me</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>I'm a passionate Full Stack Developer with expertise in building modern web applications using the latest technologies. With years of experience in both frontend and backend development, I create efficient, scalable, and user-friendly solutions.</p>
+                        <div class="skills">
+                            <h3>Technical Skills</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">TypeScript</span>
+                                <span class="skill-tag">React</span>
+                                <span class="skill-tag">Node.js</span>
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">Docker</span>
+                                <span class="skill-tag">AWS</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="assets/images/profile.jpg" alt="Tom Sapletta" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2>Get In Touch</h2>
+                <p class="section-subtitle">Have a project in mind or want to collaborate? Feel free to reach out!</p>
+                
+                <div class="contact-content">
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                    
+                    <div class="contact-info">
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <h3>Email</h3>
+                            <a href="mailto:contact@tom-sapletta-com.pro">contact@tom-sapletta-com.pro</a>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fab fa-github"></i>
+                            <h3>GitHub</h3>
+                            <a href="https://github.com/tom-sapletta-com" target="_blank" rel="noopener">github.com/tom-sapletta-com</a>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fab fa-linkedin"></i>
+                            <h3>LinkedIn</h3>
+                            <a href="https://linkedin.com/in/tom-sapletta-com" target="_blank" rel="noopener">linkedin.com/in/tom-sapletta-com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Tom Sapletta</div>
+                <div class="footer-links">
+                    <a href="#about">About</a>
+                    <a href="#portfolio">Portfolio</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/tom-sapletta-com" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/tom-sapletta-com" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://twitter.com/tom_sapletta" target="_blank" rel="noopener" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Tom Sapletta. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main Scripts -->
+    <script type="module" src="assets/js/main.js"></script>
+    <script type="module">
+        import { Portfolio } from './assets/js/modules/portfolio.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize portfolio if the element exists
+            if (document.getElementById('portfolio-grid')) {
+                new Portfolio();
+            }
+            
+            // Initialize dark mode if the element exists
+            if (document.getElementById('dark-mode-toggle')) {
+                import('./assets/js/modules/dark-mode.js');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -8,14 +8,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Tom's Portfolio">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="/assets/images/icon-192x192.png">
-    <title>Tom Sapletta - Professional Portfolio</title>
     
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/assets/images/icon-192x192.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <title>Tom Sapletta - Professional Portfolio</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,17 +24,10 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/portfolio.css">
+    <link rel="stylesheet" href="assets/css/portfolio-section.css">
     
-    <!-- Scripts (with defer for better performance) -->
+    <!-- Scripts -->
     <script src="https://valid-links.digitname.com/valid-links.js" defer></script>
-    
-    <!-- Main application scripts -->
-    <script type="module" src="assets/js/main.js"></script>
-    
-    <!-- Component scripts -->
-    <script type="module" src="assets/js/dark-mode.js"></script>
-    <script type="module" src="assets/js/portfolio.js"></script>
     
     <!-- Initialize service worker -->
     <script>
@@ -51,7 +43,7 @@
         });
       }
     </script>
-    <style>
+</head>
         /* Loading and error states */
         #portfolio-loading {
             text-align: center;
@@ -376,9 +368,8 @@
                 color: #a0aec0;
             }
         }
-    </style>
-</head>
 <body>
+<!-- Loading Overlay -->
 <div class="loader" id="loader">
     <div class="spinner"></div>
 </div>
@@ -606,11 +597,35 @@
     </div>
 
     <!-- Portfolio Section -->
+    <!-- Portfolio Section -->
     <section id="portfolio" class="portfolio-section">
         <div class="section-header">
             <h2>Featured Projects</h2>
             <p class="section-subtitle">Here are some of my recent projects and contributions.</p>
         </div>
+        
+        <!-- Portfolio Filters -->
+        <div class="portfolio-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="development">Development</button>
+            <button class="filter-btn" data-filter="business">Business</button>
+            <button class="filter-btn" data-filter="design">Design</button>
+        </div>
+        
+        <!-- Loading State -->
+        <div id="portfolio-loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading portfolio items...</p>
+        </div>
+        
+        <!-- Error State -->
+        <div id="portfolio-error" style="display: none;"></div>
+        
+        <!-- Portfolio Grid -->
+        <div id="portfolio-grid" class="portfolio-grid">
+            <!-- Portfolio items will be dynamically inserted here -->
+        </div>
+    </section>
         
         <div id="portfolio-filters" class="portfolio-filters">
             <div class="filter-controls">
@@ -927,9 +942,22 @@
 
 <footer>
     <p>&copy; 2025 Tom Sapletta - digitname.com | All Rights Reserved</p>
-</footer>
-
-<!-- Service Worker Registration -->
-<script src="assets/js/register-sw.js"></script>
+    <script type="module" src="assets/js/main.js"></script>
+    <script type="module" src="assets/js/modules/dark-mode.js"></script>
+    <script type="module">
+        import { Portfolio } from './assets/js/modules/portfolio.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize portfolio if the element exists
+            if (document.getElementById('portfolio-grid')) {
+                new Portfolio();
+            }
+            
+            // Initialize dark mode if the element exists
+            if (document.getElementById('dark-mode-toggle')) {
+                import('./assets/js/modules/dark-mode.js');
+            }
+        });
+    </script>
 </body>
 </html>
