@@ -1,5 +1,5 @@
 import { Card, Text, Group, Button, Image, Badge, SimpleGrid, Title, Box } from '@mantine/core';
-import { IconBrandHuggingface, IconExternalLink, IconCode, IconRobot } from '@tabler/icons-react';
+import { IconRobotFace, IconExternalLink, IconCode, IconRobot } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 
 const HuggingFaceProfile = () => {
@@ -84,7 +84,7 @@ const HuggingFaceProfile = () => {
   return (
     <Box my="xl">
       <Title order={2} mb="md" display="flex" alignItems="center" gap="sm">
-        <IconBrandHuggingface size={32} />
+        <IconRobotFace size={32} />
         Hugging Face Profile
       </Title>
       

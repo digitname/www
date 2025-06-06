@@ -1,5 +1,5 @@
 import { Container, Title, Text, Card, SimpleGrid, Group, Button, Image, Box, Tabs } from '@mantine/core';
-import { IconExternalLink, IconCode, IconBrandHuggingface } from '@tabler/icons-react';
+import { IconExternalLink, IconCode, IconRobotFace } from '@tabler/icons-react';
 import { useState } from 'react';
 import HuggingFaceProfile from '../components/HuggingFaceProfile';
 
@@ -35,7 +35,7 @@ const Portfolio = () => {
       <Tabs value={activeTab} onTabChange={setActiveTab}>
         <Tabs.List>
           <Tabs.Tab value="projects" icon={<IconCode size={14} />}>Projects</Tabs.Tab>
-          <Tabs.Tab value="huggingface" icon={<IconBrandHuggingface size={14} />}>Hugging Face</Tabs.Tab>
+          <Tabs.Tab value="huggingface" icon={<IconRobotFace size={14} />}>Hugging Face</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="projects" pt="xl">

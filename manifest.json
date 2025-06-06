@@ -1,0 +1,23 @@
+{
+  "name": "Tom Sapletta - Portfolio",
+  "short_name": "Tom's Portfolio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4a90e2",
+  "description": "Professional portfolio of Tom Sapletta - Full Stack Developer & System Architect",
+  "icons": [
+    {
+      "src": "assets/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["development", "portfolio", "technology"],
+  "lang": "en-US"
+}

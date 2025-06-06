@@ -3,13 +3,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional portfolio of Tom Sapletta - Full Stack Developer & System Architect">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tom's Portfolio">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/icon-192x192.png">
     <title>Tom Sapletta - Professional Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <!--    <script src="checker.js" defer></script>-->
-    <script src="project.js" defer></script>
-    <script src="portfolio.js" defer></script>
-    <script src="image-preloader.js" defer></script>
-    <script src="https://valid-links.digitname.com/valid-links.js"></script>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/icon-192x192.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/portfolio.css">
+    
+    <!-- Scripts (with defer for better performance) -->
+    <script src="https://valid-links.digitname.com/valid-links.js" defer></script>
+    
+    <!-- Main application scripts -->
+    <script type="module" src="assets/js/main.js"></script>
+    
+    <!-- Component scripts -->
+    <script type="module" src="assets/js/dark-mode.js"></script>
+    <script type="module" src="assets/js/portfolio.js"></script>
+    
+    <!-- Initialize service worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('ServiceWorker registration successful');
+            })
+            .catch(err => {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+      }
+    </script>
+    <style>
+        /* Loading and error states */
+        #portfolio-loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #666;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        #portfolio-error {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            color: #dc3545;
+            background-color: #f8d7da;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .portfolio-item {
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .portfolio-image {
+            height: 180px;
+            background-color: #f6f8fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .portfolio-content {
+            padding: 1.5rem;
+        }
+        
+        .portfolio-content h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.25rem;
+        }
+        
+        .portfolio-content p {
+            color: #666;
+            margin: 0 0 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .portfolio-tag {
+            background-color: #f3f4f6;
+            color: #4b5563;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+        }
+        
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+        
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            background: #e5e7eb;
+        }
+        
+        .filter-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #2563eb;
+        }
+        
+        .filter-info {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            text-align: right;
+        }
+        
+        /* Portfolio Item Hover Effects */
+        .portfolio-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+        
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(59, 130, 246, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+        
+        .view-project {
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 4px;
+            transform: translateY(10px);
+            transition: transform 0.3s;
+        }
+        
+        .portfolio-item:hover .view-project {
+            transform: translateY(0);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .filter-buttons {
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .filter-buttons::-webkit-scrollbar {
+                height: 6px;
+            }
+            
+            .filter-buttons::-webkit-scrollbar-thumb {
+                background: #ddd;
+                border-radius: 3px;
+            }
+        }
+        
+        /* Animation for portfolio items */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .portfolio-item {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        /* Stagger animations */
+        .portfolio-item:nth-child(1) { animation-delay: 0.1s; }
+        .portfolio-item:nth-child(2) { animation-delay: 0.2s; }
+        .portfolio-item:nth-child(3) { animation-delay: 0.3s; }
+        .portfolio-item:nth-child(4) { animation-delay: 0.4s; }
+        .portfolio-item:nth-child(5) { animation-delay: 0.5s; }
+        .portfolio-item:nth-child(n+6) { animation-delay: 0.6s; }
+        
+        /* No results message */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 1rem;
+            margin: 2rem 0;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .no-results-content {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .no-results i {
+            font-size: 3rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .no-results h3 {
+            margin: 0 0 0.5rem;
+            color: #343a40;
+        }
+        
+        .no-results p {
+            color: #6c757d;
+            margin: 0;
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .portfolio-item {
+                background-color: #2d3748;
+                border-color: #4a5568;
+            }
+            
+            .portfolio-content {
+                color: #e2e8f0;
+            }
+            
+            .portfolio-content p {
+                color: #a0aec0;
+            }
+            
+            .portfolio-tag {
+                background-color: #4a5568;
+                color: #e2e8f0;
+            }
+            
+            .no-results {
+                background-color: #2d3748;
+            }
+            
+            .no-results h3 {
+                color: #e2e8f0;
+            }
+            
+            .no-results p {
+                color: #a0aec0;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="loader" id="loader">
@@ -18,14 +385,32 @@
 
 
 <div class="container">
+    <header class="site-header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="/">
+                    <span>Tom</span>Sapletta
+                </a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="/portfolio/">Portfolio</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
 
     <div class="profile-section">
-
         <img src="https://sapletta.github.io/about/image.png" alt="Tom Sapletta" class="profile-image">
-        <h1><a href="https://sapletta.com">Tom Sapletta</a> <a href="https://www.digitname.com">DigitName
-            Portfolio</a></h1>
-
-
+        <h1><a href="https://sapletta.com">Tom Sapletta</a> <a href="https://www.digitname.com">DigitName Portfolio</a></h1>
     </div>
 
     <div class="profile-content">
@@ -220,9 +605,49 @@
         </div>
     </div>
 
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio-section">
+        <div class="section-header">
+            <h2>Featured Projects</h2>
+            <p class="section-subtitle">Here are some of my recent projects and contributions.</p>
+        </div>
+        
+        <div id="portfolio-filters" class="portfolio-filters">
+            <div class="filter-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search projects..." aria-label="Search projects">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+                    <button class="filter-btn" data-filter="devops" aria-pressed="false">DevOps</button>
+                    <button class="filter-btn" data-filter="web" aria-pressed="false">Web</button>
+                    <button class="filter-btn" data-filter="iot" aria-pressed="false">IoT</button>
+                    <button class="filter-btn" data-filter="research" aria-pressed="false">Research</button>
+                </div>
+            </div>
+            <div class="filter-info" id="filter-info">
+                Showing <span id="filter-count">0</span> of <span id="total-count">0</span> projects
+            </div>
+        </div>
+        
+        <div id="portfolio-loading">
+            <div class="loading-spinner"></div>
+            <div>Loading portfolio...</div>
+        </div>
+        
+        <div id="portfolio-error" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i> Error loading portfolio data. Please try again later.
+        </div>
+        
+        <div id="portfolio-grid" class="portfolio-grid">
+            <!-- Portfolio items will be dynamically inserted here -->
+        </div>
+    </section>
+    
     <div class="tech-tag-cloud">
         <h3>Expertise Areas</h3>
-        <div id="tech-tagss">
+        <div id="tech-tags">
             <span class="tech-tag">Hypermodularity</span>
             <span class="tech-tag">ModDevOps</span>
             <span class="tech-tag">Edge Computing</span>
@@ -503,5 +928,8 @@
 <footer>
     <p>&copy; 2025 Tom Sapletta - digitname.com | All Rights Reserved</p>
 </footer>
+
+<!-- Service Worker Registration -->
+<script src="assets/js/register-sw.js"></script>
 </body>
 </html>
