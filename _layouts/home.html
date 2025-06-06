@@ -1,0 +1,59 @@
+---
+layout: default
+---
+
+{{ content }}
+
+<section class="featured-posts">
+  <div class="container">
+    <h2 class="section-title">Latest Articles</h2>
+    <div class="posts-grid">
+      {% assign featured_posts = site.posts | where: "featured", true | slice: 0, 3 %}
+      {% for post in featured_posts %}
+        <article class="post-card">
+          {% if post.featured_image %}
+            <div class="post-image">
+              <a href="{{ post.url | relative_url }}">
+                <img src="{{ post.featured_image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+              </a>
+            </div>
+          {% endif %}
+          <div class="post-content">
+            <h3 class="post-title">
+              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            </h3>
+            <div class="post-meta">
+              <time datetime="{{ post.date | date_to_xmlschema }}">
+                {{ post.date | date: "%B %-d, %Y" }}
+              </time>
+              {% if post.categories.size > 0 %}
+                <span class="post-categories">
+                  {% for category in post.categories limit:1 %}
+                    {{ category }}
+                  {% endfor %}
+                </span>
+              {% endif %}
+            </div>
+            <p class="post-excerpt">
+              {{ post.excerpt | strip_html | truncatewords: 20 }}
+            </p>
+            <a href="{{ post.url | relative_url }}" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+    <div class="text-center">
+      <a href="{{ '/blog/' | relative_url }}" class="btn btn-outline">View All Articles</a>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Ready to start your next project?</h2>
+      <p>Get in touch and let's create something amazing together.</p>
+      <a href="{{ '/contact/' | relative_url }}" class="btn btn-primary">Get In Touch</a>
+    </div>
+  </div>
+</section>

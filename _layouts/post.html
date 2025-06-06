@@ -1,0 +1,121 @@
+---
+layout: default
+---
+
+<article class="post">
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    
+    <div class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}" class="post-date">
+        {{ page.date | date: "%B %-d, %Y" }}
+      </time>
+      
+      {% if page.author %}
+        <span class="post-author">By {{ page.author }}</span>
+      {% endif %}
+      
+      {% if page.categories.size > 0 %}
+        <div class="post-categories">
+          <i class="fas fa-folder"></i>
+          {% for category in page.categories %}
+            <a href="{{ '/categories/#' | append: category | slugify | relative_url }}" class="post-category">{{ category }}</a>
+            {% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+      {% if page.tags.size > 0 %}
+        <div class="post-tags">
+          <i class="fas fa-tags"></i>
+          {% for tag in page.tags %}
+            <a href="{{ '/tags/#' | append: tag | slugify | relative_url }}" class="post-tag">{{ tag }}</a>
+            {% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    
+    {% if page.featured_image %}
+      <div class="post-featured-image">
+        <img src="{{ page.featured_image | relative_url }}" alt="{{ page.title }}" loading="lazy">
+        {% if page.image_caption %}
+          <div class="image-caption">{{ page.image_caption | markdownify }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+  
+  <footer class="post-footer">
+    {% if page.previous.url or page.next.url %}
+      <div class="post-navigation">
+        {% if page.previous.url %}
+          <a href="{{ page.previous.url | relative_url }}" class="post-nav-link previous">
+            <i class="fas fa-arrow-left"></i>
+            <span class="post-nav-title">{{ page.previous.title }}</span>
+          </a>
+        {% endif %}
+        
+        {% if page.next.url %}
+          <a href="{{ page.next.url | relative_url }}" class="post-nav-link next">
+            <span class="post-nav-title">{{ page.next.title }}</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    {% if site.disqus.shortname %}
+      {% include disqus_comments.html %}
+    {% endif %}
+    
+    <div class="post-share">
+      <span>Share this post:</span>
+      <a href="https://twitter.com/intent/tweet?text={{ page.title | uri_escape }}&url={{ page.url | absolute_url | uri_escape }}" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url | uri_escape }}" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | uri_escape }}" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </div>
+    
+    <div class="post-author">
+      {% if site.author_image %}
+        <img src="{{ site.author_image | relative_url }}" alt="{{ site.author }}" class="author-avatar">
+      {% endif %}
+      <div class="author-details">
+        <h3>About {{ site.author }}</h3>
+        <p>{{ site.author_bio | default: site.description }}</p>
+        <div class="author-links">
+          {% if site.author_links.github %}
+            <a href="https://github.com/{{ site.author_links.github }}" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-github"></i>
+            </a>
+          {% endif %}
+          {% if site.author_links.twitter %}
+            <a href="https://twitter.com/{{ site.author_links.twitter }}" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-twitter"></i>
+            </a>
+          {% endif %}
+          {% if site.author_links.linkedin %}
+            <a href="https://linkedin.com/in/{{ site.author_links.linkedin }}" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          {% endif %}
+          {% if site.author_links.website %}
+            <a href="{{ site.author_links.website }}" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-globe"></i>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </footer>
+</article>

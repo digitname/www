@@ -1,0 +1,232 @@
+---
+layout: portfolio
+title: Portfolio | Tom Sapletta
+description: A collection of my projects and work in DevOps, web development, and technology.
+---
+
+<section class="portfolio-header">
+  <div class="container">
+    <h1>My Portfolio</h1>
+    <p class="lead">A showcase of my projects, contributions, and technical expertise</p>
+    
+    <div class="portfolio-stats">
+      <div class="stat-item">
+        <span class="stat-number">{{ site.portfolio | size }}</span>
+        <span class="stat-label">Projects</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">5+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">Client Satisfaction</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="portfolio-filters">
+  <div class="container">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search projects..." aria-label="Search projects">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+    
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="devops">DevOps</button>
+      <button class="filter-btn" data-filter="web">Web Development</button>
+      <button class="filter-btn" data-filter="iot">IoT</button>
+      <button class="filter-btn" data-filter="research">Research</button>
+    </div>
+    
+    <div class="sort-options">
+      <label for="sortSelect">Sort by:</label>
+      <select id="sortSelect" aria-label="Sort projects">
+        <option value="date-desc">Newest First</option>
+        <option value="date-asc">Oldest First</option>
+        <option value="name-asc">Name (A-Z)</option>
+        <option value="name-desc">Name (Z-A)</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="portfolio-grid">
+  <div class="container">
+    <div class="grid" id="portfolioGrid">
+      {% assign sorted_projects = site.portfolio | sort: 'date' | reverse %}
+      {% for project in sorted_projects %}
+        <div class="portfolio-item" 
+             data-category="{{ project.category | default: 'uncategorized' }}"
+             data-tags="{{ project.tags | join: ',' | downcase }}"
+             data-date="{{ project.date | date: '%Y%m%d' }}"
+             data-name="{{ project.title | downcase }}">
+          
+          <div class="portfolio-card">
+            <div class="portfolio-image">
+              {% if project.image %}
+                <img src="{{ project.image | relative_url }}" alt="{{ project.title }}" loading="lazy">
+              {% else %}
+                <div class="placeholder-image">
+                  <i class="fas fa-code"></i>
+                </div>
+              {% endif %}
+              
+              <div class="portfolio-links">
+                {% if project.github %}
+                  <a href="{{ project.github }}" target="_blank" rel="noopener noreferrer" title="View on GitHub">
+                    <i class="fab fa-github"></i>
+                  </a>
+                {% endif %}
+                {% if project.demo %}
+                  <a href="{{ project.demo }}" target="_blank" rel="noopener noreferrer" title="Live Demo">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                {% endif %}
+                {% if project.pdf %}
+                  <a href="{{ project.pdf }}" target="_blank" rel="noopener noreferrer" title="View PDF">
+                    <i class="fas fa-file-pdf"></i>
+                  </a>
+                {% endif %}
+              </div>
+              
+              <div class="portfolio-category">
+                {{ project.category | default: 'Project' }}
+              </div>
+            </div>
+            
+            <div class="portfolio-content">
+              <h3>{{ project.title }}</h3>
+              <p class="project-description">{{ project.description }}</p>
+              
+              <div class="portfolio-meta">
+                <span class="project-date">
+                  <i class="far fa-calendar-alt"></i>
+                  {{ project.date | date: "%B %Y" }}
+                </span>
+                
+                {% if project.client %}
+                  <span class="project-client">
+                    <i class="fas fa-user-tie"></i>
+                    {{ project.client }}
+                  </span>
+                {% endif %}
+              </div>
+              
+              <div class="portfolio-tags">
+                {% for tag in project.tags limit: 3 %}
+                  <span class="tag">{{ tag }}</span>
+                {% endfor %}
+                {% if project.tags.size > 3 %}
+                  <span class="tag-more">+{{ project.tags.size | minus: 3 }} more</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <div id="noResults" class="no-results">
+      <i class="fas fa-search"></i>
+      <h3>No projects found</h3>
+      <p>Try adjusting your search or filter criteria</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Have a project in mind?</h2>
+    <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
+    <a href="/contact/" class="btn btn-primary">Get In Touch</a>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const portfolioItems = document.querySelectorAll('.portfolio-item');
+  const searchInput = document.getElementById('searchInput');
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const sortSelect = document.getElementById('sortSelect');
+  const noResults = document.getElementById('noResults');
+  
+  // Filter projects
+  function filterProjects() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+    let visibleItems = 0;
+    
+    portfolioItems.forEach(item => {
+      const title = item.querySelector('h3').textContent.toLowerCase();
+      const description = item.querySelector('.project-description').textContent.toLowerCase();
+      const tags = item.dataset.tags;
+      const category = item.dataset.category;
+      
+      const matchesSearch = title.includes(searchTerm) || 
+                          description.includes(searchTerm) || 
+                          tags.includes(searchTerm);
+      
+      const matchesFilter = activeFilter === 'all' || 
+                          category === activeFilter || 
+                          tags.includes(activeFilter);
+      
+      if (matchesSearch && matchesFilter) {
+        item.style.display = '';
+        visibleItems++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    
+    // Show/hide no results message
+    noResults.style.display = visibleItems > 0 ? 'none' : 'flex';
+    
+    // Sort projects
+    sortProjects();
+  }
+  
+  // Sort projects
+  function sortProjects() {
+    const sortValue = sortSelect.value;
+    const container = document.getElementById('portfolioGrid');
+    const items = Array.from(document.querySelectorAll('.portfolio-item[style=""]'));
+    
+    items.sort((a, b) => {
+      switch(sortValue) {
+        case 'date-asc':
+          return a.dataset.date - b.dataset.date;
+        case 'date-desc':
+          return b.dataset.date - a.dataset.date;
+        case 'name-asc':
+          return a.dataset.name.localeCompare(b.dataset.name);
+        case 'name-desc':
+          return b.dataset.name.localeCompare(a.dataset.name);
+        default:
+          return 0;
+      }
+    });
+    
+    // Re-append items in sorted order
+    items.forEach(item => container.appendChild(item));
+  }
+  
+  // Event listeners
+  searchInput.addEventListener('input', filterProjects);
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      filterProjects();
+    });
+  });
+  
+  sortSelect.addEventListener('change', filterProjects);
+  
+  // Initial filter
+  filterProjects();
+});
+</script>
