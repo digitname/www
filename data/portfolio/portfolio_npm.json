@@ -1,0 +1,129 @@
+{
+  "source": "npm",
+  "last_updated": "2025-06-05T13:20:55.501625",
+  "projects": [
+    {
+      "name": "devlama",
+      "full_name": "devlama",
+      "description": "AI-powered development assistant that leverages Ollama's language models for code generation and assistance",
+      "url": "https://www.npmjs.com/package/devlama",
+      "version": "0.1.1",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355783",
+      "source": "npm"
+    },
+    {
+      "name": "@softreck/gitpad-github",
+      "full_name": "@softreck/gitpad-github",
+      "description": "API info about gihub repositories",
+      "url": "https://www.npmjs.com/package/@softreck/gitpad-github",
+      "version": "1.0.1",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355780",
+      "source": "npm"
+    },
+    {
+      "name": "gitpad-decode",
+      "full_name": "gitpad-decode",
+      "description": "Each loop with filtering for gitpad",
+      "url": "https://www.npmjs.com/package/gitpad-decode",
+      "version": "1.0.3",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355778",
+      "source": "npm"
+    },
+    {
+      "name": "gitpad-empty",
+      "full_name": "gitpad-empty",
+      "description": "Empty function to check variable",
+      "url": "https://www.npmjs.com/package/gitpad-empty",
+      "version": "1.0.2",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355776",
+      "source": "npm"
+    },
+    {
+      "name": "gitpad-each-filter",
+      "full_name": "gitpad-each-filter",
+      "description": "Each loop with filtering for gitpad",
+      "url": "https://www.npmjs.com/package/gitpad-each-filter",
+      "version": "1.0.3",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355773",
+      "source": "npm"
+    },
+    {
+      "name": "gitpad-each",
+      "full_name": "gitpad-each",
+      "description": "Each loop for gitpad",
+      "url": "https://www.npmjs.com/package/gitpad-each",
+      "version": "1.0.5",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355771",
+      "source": "npm"
+    },
+    {
+      "name": "@js-func/each",
+      "full_name": "@js-func/each",
+      "description": "Each loop for Array list (Object Collection)",
+      "url": "https://www.npmjs.com/package/@js-func/each",
+      "version": "1.0.6",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355768",
+      "source": "npm"
+    },
+    {
+      "name": "reactstream-web",
+      "full_name": "reactstream-web",
+      "description": "Web interface for ReactStream analysis and component development",
+      "url": "https://www.npmjs.com/package/reactstream-web",
+      "version": "1.0.4",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355766",
+      "source": "npm"
+    },
+    {
+      "name": "@reactstream/cli",
+      "full_name": "@reactstream/cli",
+      "description": "CLI tool for React component development and debugging",
+      "url": "https://www.npmjs.com/package/@reactstream/cli",
+      "version": "0.3.97",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355763",
+      "source": "npm"
+    },
+    {
+      "name": "bexy",
+      "full_name": "bexy",
+      "description": "JavaScript sandbox for safely executing code in isolated environments",
+      "url": "https://www.npmjs.com/package/bexy",
+      "version": "0.1.1",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355760",
+      "source": "npm"
+    },
+    {
+      "name": "gitpad-github",
+      "full_name": "gitpad-github",
+      "description": "API info about gihub repositories",
+      "url": "https://www.npmjs.com/package/gitpad-github",
+      "version": "1.0.77",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355756",
+      "source": "npm"
+    },
+    {
+      "name": "taskinity-render",
+      "full_name": "taskinity-render",
+      "description": "Simple renderer for Taskinity flow diagrams and syntax highlighting",
+      "url": "https://www.npmjs.com/package/taskinity-render",
+      "version": "1.0.11",
+      "downloads": 0,
+      "updated_at": "2025-06-05T13:20:57.355742",
+      "source": "npm"
+    }
+  ],
+  "stats": {
+    "total_projects": 12
+  }
+}

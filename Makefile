@@ -4,6 +4,19 @@ PROD_PORT := 8001
 PORTFOLIO_PORT := 8000
 PYTHON := python3
 NPM := npm
+DOCKER_COMPOSE := docker-compose
+DOCKER := docker
+PYTHON_ENV := .venv
+PYTHON_BIN := $(PYTHON_ENV)/bin/python
+PIP := $(PYTHON_ENV)/bin/pip
+PYTEST := $(PYTHON_ENV)/bin/pytest
+NODE_MODULES := node_modules
+
+# Colors
+GREEN  := $(shell tput -Txterm setaf 2)
+YELLOW := $(shell tput -Txterm setaf 3)
+WHITE  := $(shell tput -Txterm setaf 7)
+RESET  := $(shell tput -Txterm sgr0)
 
 # PID files
 PORTFOLIO_PID := /tmp/portfolio_server.pid
@@ -14,9 +27,84 @@ DIST_DIR := $(REACT_APP_DIR)/dist
 
 .PHONY: help build run test clean publish version deps deps-js setup-env check-env \
         publish-npm publish-pypi publish-docker update-portfolio setup-tokens \
-        start stop stop-all status install format lint
+        start start-dev start-prod stop stop-all status install format lint setup setup-venv \
+        install-python install-js install-deps check-env clean clean-pyc clean-node clean-docker
 
-# Default target
+##@ Help
+help:  ## Display this help
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
+##@ Development
+setup: setup-venv install-deps check-env  ## Setup development environment
+
+setup-venv:  ## Create Python virtual environment
+	@echo "$(YELLOW)Setting up Python virtual environment...$(RESET)"
+	$(PYTHON) -m venv $(PYTHON_ENV) || (echo "Failed to create virtual environment. Make sure python3-venv is installed." && exit 1)
+	@echo "$(GREEN)✓ Virtual environment created$(RESET)"
+
+install-python:  ## Install Python dependencies
+	@echo "$(YELLOW)Installing Python dependencies...$(RESET)
+	$(PIP) install --upgrade pip
+	$(PIP) install -r requirements.txt
+	@echo "$(GREEN)✓ Python dependencies installed$(RESET)"
+
+install-js:  ## Install JavaScript dependencies
+	@echo "$(YELLOW)Installing JavaScript dependencies...$(RESET)
+	npm install
+	@echo "$(GREEN)✓ JavaScript dependencies installed$(RESET)"
+
+install-deps: install-python install-js  ## Install all dependencies
+
+check-env:  ## Check environment configuration
+	@echo "$(YELLOW)Checking environment configuration...$(RESET)
+	@if [ ! -f .env ]; then \
+		echo "$(YELLOW)Warning: .env file not found. Creating from example...$(RESET)"; \
+		cp -n .env.example .env; \
+	fi
+	@echo "$(GREEN)✓ Environment configuration checked$(RESET)"
+
+##@ Run targets
+start: start-dev  ## Alias for start-dev
+
+start-dev: check-env  ## Start development server
+	@echo "$(YELLOW)Starting development server...$(RESET)"
+	@$(PYTHON_BIN) server.py $(DEV_PORT)
+
+start-prod: check-env  ## Start production server
+	@echo "$(YELLOW)Starting production server on port $(PROD_PORT)...$(RESET)"
+	@$(PYTHON_BIN) server.py $(PROD_PORT)
+
+start-docker:  ## Start using Docker
+	@echo "$(YELLOW)Starting with Docker...$(RESET)"
+	@$(DOCKER_COMPOSE) up --build
+
+##@ Cleanup
+clean: clean-pyc clean-node clean-docker  ## Remove all build, test, coverage and Python artifacts
+
+clean-pyc:  ## Remove Python file artifacts
+	@echo "$(YELLOW)Cleaning Python cache files...$(RESET)"
+	@find . -name '*.pyc' -type f -delete 2>/dev/null || true
+	@find . -name '*.pyo' -type f -delete 2>/dev/null || true
+	@find . -name '*~' -type f -delete 2>/dev/null || true
+	@find . -name '__pycache__' -type d -exec rm -rf {} + 2>/dev/null || true
+	@find . -name '.pytest_cache' -type d -exec rm -rf {} + 2>/dev/null || true
+	@rm -f .coverage coverage.xml 2>/dev/null || true
+	@rm -rf htmlcov/ 2>/dev/null || true
+
+clean-node:  ## Remove node_modules
+	@echo "$(YELLOW)Cleaning node modules...$(RESET)"
+	@rm -rf $(NODE_MODULES) 2>/dev/null || true
+	@rm -f package-lock.json 2>/dev/null || true
+
+clean-docker:  ## Stop and remove Docker containers and volumes
+	@echo "$(YELLOW)Cleaning Docker containers and volumes...$(RESET)"
+	@if command -v docker-compose >/dev/null 2>&1; then \
+		docker-compose down -v --remove-orphans || true; \
+	else \
+		echo "$(YELLOW)Docker Compose not found, skipping...$(RESET)"; \
+	fi
+
+##@ Default target
 help:
 	@echo "Environment Setup:"
 	@echo "  setup-env       - Create .env file from example"
@@ -299,8 +387,8 @@ format:
 # Clean build artifacts
 clean:
 	rm -rf build/ dist/ .mypy_cache/ .pytest_cache/ .coverage htmlcov/ *.egg-info
-	find . -type d -name '__pycache__' -exec rm -rf {} +
-	find . -type f -name '*.py[co]' -delete
+	find . -type d -name '__pycache__' -exec rm -rf {} + 2>/dev/null || true
+	find . -type f -name '*.py[co]' -delete 2>/dev/null || true
 
 # Build package
 build: clean

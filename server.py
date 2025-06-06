@@ -23,12 +23,45 @@ class StaticHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(Path(__file__).parent), **kwargs)
     
+    def do_GET(self):
+        # Route requests to the appropriate directory
+        if self.path.startswith('/static/'):
+            self.directory = str(Path(__file__).parent / 'static')
+            self.path = self.path[7:]  # Remove '/static' prefix
+        elif self.path.startswith('/data/'):
+            self.directory = str(Path(__file__).parent / 'data')
+            self.path = self.path[5:]  # Remove '/data' prefix
+        else:
+            # Default to views directory for HTML files
+            if not self.path or self.path == '/' or self.path == '/portfolio':
+                self.path = '/portfolio.html'
+            if not self.path.startswith('/'):
+                self.path = '/' + self.path
+            self.directory = str(Path(__file__).parent / 'views')
+            
+            # If the file doesn't exist, try serving from root
+            if not os.path.exists(os.path.join(self.directory, self.path.lstrip('/'))):
+                self.directory = str(Path(__file__).parent)
+        
+        print(f"Serving {self.path} from {self.directory}")  # Debug log
+        
+        return http.server.SimpleHTTPRequestHandler.do_GET(self)
+    
     def end_headers(self):
         # Enable CORS and disable caching
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
         self.send_header('Pragma', 'no-cache')
         self.send_header('Expires', '0')
+        
+        # Set correct content types
+        if self.path.endswith('.js'):
+            self.send_header('Content-Type', 'application/javascript')
+        elif self.path.endswith('.css'):
+            self.send_header('Content-Type', 'text/css')
+        elif self.path.endswith('.json'):
+            self.send_header('Content-Type', 'application/json')
+            
         super().end_headers()
     
     def log_message(self, format, *args):

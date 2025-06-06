@@ -1,22 +1,63 @@
 {
-  "name": "digitname",
+  "name": "digitname-portfolio",
   "version": "1.0.0",
-  "description": "Digital naming and domain management tools",
+  "private": true,
+  "description": "Tom Sapletta's professional portfolio",
   "scripts": {
-    "start": "python server.py",
-    "dev": "python -m http.server 8002",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "python server.py",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "build": "echo 'No build step required for static site'"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
-  "devDependencies": {
-    "canvas": "^3.1.0",
-    "eslint": "^8.56.0",
-    "prettier": "^3.1.0",
-    "sharp": "^0.34.2"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "dependencies": {
-    "mermaid": "^10.8.0"
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "axios": "^1.3.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
+    "react-scroll": "^1.8.9",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^5.0.0",
+    "prettier": "^3.1.0",
+    "tailwindcss": "^3.3.3"
   }
 }

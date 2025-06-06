@@ -1,4 +1,6 @@
 .idea
+package-lock.json
+yarn.lock
 accounts.toml
 package-lock.json
 venv
