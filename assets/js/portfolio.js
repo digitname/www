@@ -26,29 +26,56 @@ export class Portfolio {
       this.showLoading(true);
       this.showError(false);
       
-      // Load data from data.json
-      const response = await fetch('/data.json');
+      console.log('Loading portfolio data...');
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // Try multiple possible paths for the data file
+      const possiblePaths = [
+        '/data.json',
+        'data.json',
+        './data.json',
+        '/assets/portfolio/data.json',
+        'assets/portfolio/data.json'
+      ];
+      
+      let lastError = null;
+      
+      // Try each path until one works
+      for (const path of possiblePaths) {
+        try {
+          console.log(`Trying to load data from: ${path}`);
+          const response = await fetch(path);
+          
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          const data = await response.json();
+          
+          if (Array.isArray(data) && data.length > 0) {
+            console.log(`Successfully loaded ${data.length} portfolio items from ${path}`);
+            this.portfolioData = this.processPortfolioData(data);
+            this.updateTotalCount(this.portfolioData.length);
+            this.renderPortfolio(this.portfolioData);
+            this.updateDashboardStats(this.portfolioData);
+            this.filterPortfolio();
+            this.addEventListeners();
+            return; // Success!
+          } else {
+            throw new Error('Invalid data format: expected non-empty array');
+          }
+        } catch (error) {
+          console.warn(`Failed to load from ${path}:`, error);
+          lastError = error;
+          continue; // Try next path
+        }
       }
       
-      this.portfolioData = await response.json();
-      
-      // Process and display data
-      this.portfolioData = this.processPortfolioData(this.portfolioData);
-      this.updateTotalCount(this.portfolioData.length);
-      this.renderPortfolio(this.portfolioData);
-      this.updateDashboardStats(this.portfolioData);
-      
-      // Initial filter
-      this.filterPortfolio();
-      
-      // Add event listeners
-      this.addEventListeners();
+      // If we get here, all paths failed
+      throw lastError || new Error('Failed to load portfolio data from any known location');
       
     } catch (error) {
-      console.error('Error loading portfolio data:', error);
+      console.error('Error initializing portfolio:', error);
+      this.showError(true, 'Failed to load portfolio data. Please try again later.');
       this.showError('Failed to load portfolio data. Please try again later.');
     } finally {
       this.showLoading(false);

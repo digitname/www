@@ -24,8 +24,14 @@ class StaticHandler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(Path(__file__).parent), **kwargs)
     
     def do_GET(self):
+        # Handle data.json specially
+        if self.path == '/data.json' or self.path == '/data.json/':
+            self.path = '/data.json'
+            self.directory = str(Path(__file__).parent)
+            if not os.path.exists(os.path.join(self.directory, 'data.json')):
+                self.directory = str(Path(__file__).parent / 'assets/portfolio')
         # Route requests to the appropriate directory
-        if self.path.startswith('/static/'):
+        elif self.path.startswith('/static/'):
             self.directory = str(Path(__file__).parent / 'static')
             self.path = self.path[7:]  # Remove '/static' prefix
         elif self.path.startswith('/data/'):
@@ -47,22 +53,68 @@ class StaticHandler(http.server.SimpleHTTPRequestHandler):
         
         return http.server.SimpleHTTPRequestHandler.do_GET(self)
     
+    def guess_type(self, path):
+        """Override to ensure correct MIME types for all files."""
+        base, ext = os.path.splitext(path)
+        ext = ext.lower()
+        
+        # Custom MIME types
+        mime_types = {
+            '.css': 'text/css',
+            '.js': 'application/javascript',
+            '.json': 'application/json',
+            '.png': 'image/png',
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.gif': 'image/gif',
+            '.svg': 'image/svg+xml',
+            '.ico': 'image/x-icon',
+            '.webp': 'image/webp',
+            '.woff': 'font/woff',
+            '.woff2': 'font/woff2',
+            '.ttf': 'font/ttf',
+            '.eot': 'application/vnd.ms-fontobject',
+            '.otf': 'font/otf',
+            '.wasm': 'application/wasm'
+        }
+        
+        # Check our custom types first
+        if ext in mime_types:
+            return mime_types[ext]
+            
+        # Fall back to the parent class's guess_type
+        return super().guess_type(path)
+        
     def end_headers(self):
         # Enable CORS and disable caching
         self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
         self.send_header('Pragma', 'no-cache')
         self.send_header('Expires', '0')
         
-        # Set correct content types
-        if self.path.endswith('.js'):
-            self.send_header('Content-Type', 'application/javascript')
-        elif self.path.endswith('.css'):
-            self.send_header('Content-Type', 'text/css')
-        elif self.path.endswith('.json'):
-            self.send_header('Content-Type', 'application/json')
-            
-        super().end_headers()
+        # Always set content type based on file extension
+        content_type = self.guess_type(self.path)
+        if content_type:
+            self.send_header('Content-Type', content_type)
+                
+        http.server.SimpleHTTPRequestHandler.end_headers(self)
+        
+    def handle_api(self):
+        """Handle API requests"""
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+        self.wfile.write(json.dumps({"status": "success", "message": "API endpoint"}).encode())
+        
+    def do_OPTIONS(self):
+        """Handle preflight requests"""
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
     
     def log_message(self, format, *args):
         # Custom logging to reduce noise

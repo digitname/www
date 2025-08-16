@@ -23,24 +23,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/portfolio-section.css">
+    <link rel="stylesheet" href="assets/css/main.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/portfolio-section.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/portfolio.css" type="text/css">
     
     <!-- Scripts -->
     <script src="https://valid-links.digitname.com/valid-links.js" defer></script>
+    <script src="/assets/js/portfolio-loader.js" defer></script>
     
     <!-- Initialize service worker -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+          navigator.serviceWorker.register('sw.js')
             .then(registration => {
-              console.log('ServiceWorker registration successful');
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
             })
             .catch(err => {
-              console.log('ServiceWorker registration failed: ', err);
+              console.error('ServiceWorker registration failed: ', err);
             });
         });
+      } else {
+        console.log('Service workers are not supported in this browser.');
       }
     </script>
     
@@ -600,36 +604,13 @@
     </div>
 
     <!-- Portfolio Section -->
-    <!-- Portfolio Section -->
     <section id="portfolio" class="portfolio-section">
         <div class="section-header">
-            <h2>Featured Projects</h2>
-            <p class="section-subtitle">Here are some of my recent projects and contributions.</p>
+            <h2>My Projects</h2>
+            <p class="section-subtitle">A collection of my open source contributions and personal projects.</p>
         </div>
         
         <!-- Portfolio Filters -->
-        <div class="portfolio-filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="development">Development</button>
-            <button class="filter-btn" data-filter="business">Business</button>
-            <button class="filter-btn" data-filter="design">Design</button>
-        </div>
-        
-        <!-- Loading State -->
-        <div id="portfolio-loading">
-            <i class="fas fa-spinner fa-spin"></i>
-            <p>Loading portfolio items...</p>
-        </div>
-        
-        <!-- Error State -->
-        <div id="portfolio-error" style="display: none;"></div>
-        
-        <!-- Portfolio Grid -->
-        <div id="portfolio-grid" class="portfolio-grid">
-            <!-- Portfolio items will be dynamically inserted here -->
-        </div>
-    </section>
-        
         <div id="portfolio-filters" class="portfolio-filters">
             <div class="filter-controls">
                 <div class="search-box">
@@ -638,10 +619,11 @@
                 </div>
                 <div class="filter-buttons">
                     <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+                    <button class="filter-btn" data-filter="javascript" aria-pressed="false">JavaScript</button>
+                    <button class="filter-btn" data-filter="python" aria-pressed="false">Python</button>
                     <button class="filter-btn" data-filter="devops" aria-pressed="false">DevOps</button>
                     <button class="filter-btn" data-filter="web" aria-pressed="false">Web</button>
                     <button class="filter-btn" data-filter="iot" aria-pressed="false">IoT</button>
-                    <button class="filter-btn" data-filter="research" aria-pressed="false">Research</button>
                 </div>
             </div>
             <div class="filter-info" id="filter-info">
@@ -649,15 +631,18 @@
             </div>
         </div>
         
+        <!-- Loading State -->
         <div id="portfolio-loading">
             <div class="loading-spinner"></div>
-            <div>Loading portfolio...</div>
+            <div>Loading portfolio projects...</div>
         </div>
         
+        <!-- Error State -->
         <div id="portfolio-error" style="display: none;">
-            <i class="fas fa-exclamation-triangle"></i> Error loading portfolio data. Please try again later.
+            <i class="fas fa-exclamation-triangle"></i> <span class="error-message">Error loading portfolio data. Please try again later.</span>
         </div>
         
+        <!-- Portfolio Grid -->
         <div id="portfolio-grid" class="portfolio-grid">
             <!-- Portfolio items will be dynamically inserted here -->
         </div>

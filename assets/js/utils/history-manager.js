@@ -466,9 +466,14 @@ class HistoryManager {
   }
 }
 
+// Default configuration
+HistoryManager.defaultConfig = {
+  debug: false // Will be set in constructor
+};
+
 // Create a default instance
 export const historyManager = new HistoryManager({
-  debug: process.env.NODE_ENV !== 'production'
+  debug: false // Will be set in constructor
 });
 
 export default HistoryManager;

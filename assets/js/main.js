@@ -9,29 +9,31 @@ import './utils/cookies.js';
 import './utils/events.js';
 import './utils/navigation.js';
 import './utils/feature-detection.js';
+import { isDevelopment } from './utils/env.js';
 
 // Import the main app
 import App from './app.js';
 
-// Import styles
-import '../css/main.css';
-import '../css/portfolio.css';
-
 // Initialize the application when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-  // Create and initialize the app
-  const app = new App();
-  
-  // Make app available globally if needed (for debugging)
-  if (process.env.NODE_ENV !== 'production') {
-    window.app = app;
-  }
-  
-  // Log environment info
-  if (process.env.NODE_ENV !== 'production') {
-    console.log('Application initialized in', process.env.NODE_ENV, 'mode');
+  try {
+    // Create and initialize the app
+    const app = new App();
+    
+    // Make app available globally if needed (for debugging)
+    if (isDevelopment()) {
+      window.app = app;
+      console.log('App initialized in development mode');
+    }
+  } catch (error) {
+    console.error('Error initializing application:', error);
   }
 });
+
+// Log environment info
+if (isDevelopment()) {
+  console.log('Development mode: Module system is working');
+}
 
 // Export the app instance for module imports
 export default App;
