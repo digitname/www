@@ -1,9 +1,14 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
+from datetime import datetime
 import json
 import os
+import time
+
+from .logs_api import router as logs_router
+from .logging_utils import write_log_to_file
 
 app = FastAPI(title="Digitname API",
              description="API for serving portfolio data",
@@ -28,10 +33,35 @@ PORTFOLIO_FILE = Path(__file__).parent.parent / "portfolio" / "portfolio.json"
 
 def load_portfolio():
     try:
-        with open(PORTOLIO_FILE) as f:
+        with open(PORTFOLIO_FILE) as f:
             return json.load(f)
     except FileNotFoundError:
         return {"error": "Portfolio data not found"}
+
+# Include logs router
+app.include_router(logs_router)
+
+# Basic HTTP request logging middleware
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start = time.time()
+    response = None
+    try:
+        response = await call_next(request)
+        return response
+    finally:
+        duration_ms = int((time.time() - start) * 1000)
+        entry = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "level": "info",
+            "service": "api",
+            "message": "HTTP request",
+            "method": request.method,
+            "path": request.url.path,
+            "status": getattr(response, "status_code", None),
+            "duration_ms": duration_ms,
+        }
+        write_log_to_file(entry)
 
 @app.get("/api/portfolio")
 async def get_portfolio():

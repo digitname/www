@@ -2,6 +2,28 @@
 
 **Analizując strukturę mojego projektu fullstack (Python backend + React frontend + scripts), stwórz GOTOWE PLIKI KONFIGURACYJNE dla systemu logowania zero-code.**
 
+## Status wdrożenia (2025-08-16) i rekomendacje
+
+- __Infrastruktura__: działa. Obecne pliki i katalogi: `docker-compose.logging.yml`, `promtail-config.yaml`, `loki-config.yaml`, `grafana/provisioning/` (datasource + dashboardy). Uruchamianie i provisioning są gotowe.
+- __Backend__: endpoint `POST /api/logs` istnieje w `www/api/logs.py` (sanityzacja, rate-limit per IP, zapis do pliku w `LOG_DIR`). Brakuje wspólnego loggera Pythona (`src/utils/logger.py`) i middleware dla requestów.
+- __Frontend__: `www/src/utils/logger.js` istnieje (batching, retry, web vitals hook). Brakuje ErrorBoundary i pełnego monitoringu wydajności.
+- __Dashboardy__: są w `grafana/provisioning/dashboards/` (np. `app-monitoring.json`). Alerting nie jest skonfigurowany.
+- __Integracja Promtail__: skonfigurowana.
+  - Dodano label `logging=promtail` do usług `web` i `api` w `docker-compose.yml`.
+  - Ujednolicono ścieżkę logów: `LOG_DIR=/var/log/app`, `./logs:/var/log/app` zamontowane do `api` i do `promtail` (read-only).
+  - W `promtail-config.yaml` poprawiono `timestamp: timestamp` w obu jobach; `app-logs` czyta `/var/log/app/*.log`.
+- __Dokumentacja__: zaktualizowano `LOGGING-README.md` – Loki dostępne na `http://localhost:3101` + sekcja „Quick check”.
+
+### Najbliższe kroki (1–2h)
+
+- [x] Dodać label `logging=promtail` do usług `web` i `api` w `docker-compose.yml`.
+- [x] Ujednolicić ścieżkę logów aplikacyjnych: dodać `LOG_DIR=/var/log/app` i montaż `./logs:/var/log/app`; zmodyfikować `www/api/logs.py`, by używał `LOG_DIR`.
+- [x] Poprawić `promtail-config.yaml`: `timestamp: timestamp` oraz upewnić się, że job `app-logs` czyta z `/var/log/app/*.log`.
+- [x] Zaktualizować `LOGGING-README.md` (port Loki 3101 + sekcja „Quick check”).
+- [ ] (Opcjonalnie) Dodać `www/src/components/ErrorBoundary.jsx` i wpiąć w React.
+
+---
+
 ## WYMAGANIA:
 
 ### 1. DOCKER COMPOSE - Grafana + Loki Stack
@@ -92,7 +114,7 @@ Dla każdego pliku podaj:
 
 ## ✅ FAZA 1: INFRASTRUKTURA (IaC)
 
-### [ ] Task 1.1: Docker Compose Setup
+### [x] Task 1.1: Docker Compose Setup
 **Czas:** 15 min  
 **Prompt dla LLM:**
 ```
@@ -111,7 +133,7 @@ Dodaj też .env.logging z przykładowymi wartościami i instrukcje uruchomienia.
 
 ---
 
-### [ ] Task 1.2: Konfiguracja Promtail
+### [x] Task 1.2: Konfiguracja Promtail
 **Czas:** 10 min  
 **Prompt dla LLM:**
 ```
@@ -169,7 +191,7 @@ Integration bez zmiany istniejącego kodu - tylko dodanie @app.before_request
 
 ---
 
-### [ ] Task 2.3: API Endpoint dla Frontend Logów
+### [x] Task 2.3: API Endpoint dla Frontend Logów
 **Czas:** 10 min  
 **Prompt dla LLM:**
 ```
@@ -190,7 +212,7 @@ Response format: {success: boolean, processed: number, errors: []}
 
 ## ✅ FAZA 3: FRONTEND REACT
 
-### [ ] Task 3.1: React Logger Utility
+### [x] Task 3.1: React Logger Utility
 **Czas:** 20 min  
 **Prompt dla LLM:**
 ```
@@ -287,7 +309,7 @@ Update conftest.py i helpers.js. Add custom matchers dla performance.
 
 ## ✅ FAZA 5: MONITORING I DASHBOARDS
 
-### [ ] Task 5.1: Grafana Dashboards
+### [x] Task 5.1: Grafana Dashboards
 **Czas:** 25 min  
 **Prompt dla LLM:**
 ```

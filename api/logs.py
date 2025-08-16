@@ -80,7 +80,10 @@ def sanitize_log_entry(entry):
 def write_log_to_file(log_entry):
     """Write log entry to a file in a format compatible with Promtail."""
     # Create logs directory if it doesn't exist
-    logs_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs')
+    # Prefer explicit LOG_DIR (e.g., /var/log/app) with fallback to repo-local logs dir
+    logs_dir = os.environ.get('LOG_DIR') or os.path.join(
+        os.path.dirname(os.path.dirname(__file__)), 'logs'
+    )
     os.makedirs(logs_dir, exist_ok=True)
     
     # Create log file path based on date
