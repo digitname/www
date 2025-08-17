@@ -4,7 +4,7 @@
  */
 import { debounce } from './utils/helpers.js';
 import { Portfolio } from './modules/portfolio.js';
-import { DarkMode } from './modules/dark-mode.js';
+import './modules/dark-mode.js';
 
 class App {
   constructor() {
@@ -13,12 +13,8 @@ class App {
   }
 
   async initialize() {
-    // Initialize components when DOM is loaded
-    document.addEventListener('DOMContentLoaded', async () => {
-      // Initialize dark mode if the toggle exists
-      if (document.getElementById('dark-mode-toggle')) {
-        this.darkMode = new DarkMode();
-      }
+    try {
+      // Dark mode module auto-initializes if the toggle exists
 
       // Initialize core components
       this.initMobileMenu();
@@ -26,18 +22,19 @@ class App {
       this.initLazyLoading();
       this.initScrollToTop();
       this.initAnalytics();
-      
+
       // Initialize portfolio if the container exists
       if (document.getElementById('portfolio-grid')) {
         this.portfolio = new Portfolio();
-        await this.portfolio.init();
       }
-      
+
       this.addEventListeners();
-      
+
       // Hide loader when everything is ready
       this.hideLoader();
-    });
+    } catch (error) {
+      console.error('Error during app initialization:', error);
+    }
   }
 
   initMobileMenu() {
@@ -265,7 +262,4 @@ class App {
   }
 }
 
-// Initialize the application
-const app = new App();
-
-export default app;
+export default App;

@@ -4,8 +4,12 @@ export class Portfolio {
     this.loadingElement = document.getElementById('portfolio-loading');
     this.errorElement = document.getElementById('portfolio-error');
     this.filterButtons = document.querySelectorAll('.filter-btn');
+    this.searchInput = document.getElementById('searchInput');
+    this.filterCountEl = document.getElementById('filter-count');
+    this.totalCountEl = document.getElementById('total-count');
     this.activeFilter = 'all';
     this.portfolioData = [];
+    this.searchTerm = '';
     
     this.init();
   }
@@ -14,6 +18,7 @@ export class Portfolio {
     try {
       this.showLoading(true);
       await this.loadPortfolioData();
+      this.updateCounts();
       this.renderPortfolio();
       this.setupEventListeners();
     } catch (error) {
@@ -26,12 +31,15 @@ export class Portfolio {
   
   async loadPortfolioData() {
     try {
-      const response = await fetch('/assets/data/portfolio.json');
+      // Prefer path matching Playwright error route pattern: **/portfolio/*.json
+      const response = await fetch('/data/portfolio/portfolio.json');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      this.portfolioData = data.items;
+      // Transform repositories map to items array
+      const repos = Array.isArray(data) ? data : Object.values(data.repositories || {});
+      this.portfolioData = repos.map(repo => this.transformRepoToItem(repo));
     } catch (error) {
       console.error('Error loading portfolio data:', error);
       throw error;
@@ -41,27 +49,44 @@ export class Portfolio {
   renderPortfolio(filter = 'all') {
     if (!this.portfolioData.length) {
       this.showNoResults();
+      this.updateCounts(0, 0);
       return;
     }
-    
-    const filteredItems = filter === 'all' 
-      ? this.portfolioData 
-      : this.portfolioData.filter(item => item.category === filter);
-    
-    if (filteredItems.length === 0) {
+
+    // Apply category filter
+    let items = filter === 'all'
+      ? [...this.portfolioData]
+      : this.portfolioData.filter(item => {
+          const categories = Array.isArray(item.categories) ? item.categories : [item.category];
+          return categories.map(c => (c || '').toLowerCase()).includes(filter.toLowerCase());
+        });
+
+    // Apply search filter
+    const term = (this.searchTerm || '').trim().toLowerCase();
+    if (term) {
+      items = items.filter(item => {
+        const haystack = `${item.title || ''} ${item.description || ''} ${(item.tags || []).join(' ')}`.toLowerCase();
+        return haystack.includes(term);
+      });
+    }
+
+    // Update counts
+    this.updateCounts(items.length, this.portfolioData.length);
+
+    if (items.length === 0) {
       this.showNoResults();
       return;
     }
-    
-    this.portfolioGrid.innerHTML = filteredItems.map(item => this.createPortfolioItem(item)).join('');
+
+    this.portfolioGrid.innerHTML = items.map(item => this.createPortfolioItem(item)).join('');
   }
   
   createPortfolioItem(item) {
     return `
-      <div class="portfolio-item" data-category="${item.category}">
+      <div class="portfolio-item" data-category="${item.category}" data-categories="${(item.categories || [item.category]).join(',')}">
         <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="portfolio-link">
           <div class="portfolio-image">
-            <img src="${item.image}" alt="${item.title}" loading="lazy">
+            <img src="${item.image || '/assets/images/icon-192x192.png'}" alt="${item.title}" loading="lazy">
             <div class="portfolio-overlay">
               <span class="view-project">View Project</span>
             </div>
@@ -69,7 +94,7 @@ export class Portfolio {
           <div class="portfolio-content">
             <h3>${item.title}</h3>
             <p>${item.description}</p>
-            <div class="tags">
+            <div class="portfolio-tags">
               ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
             </div>
           </div>
@@ -106,11 +131,19 @@ export class Portfolio {
         this.renderPortfolio(filter);
       });
     });
+
+    // Search input
+    if (this.searchInput) {
+      this.searchInput.addEventListener('input', (e) => {
+        this.searchTerm = e.target.value || '';
+        this.renderPortfolio(this.activeFilter);
+      });
+    }
   }
   
   showLoading(show) {
     if (this.loadingElement) {
-      this.loadingElement.style.display = show ? 'block' : 'none';
+      this.loadingElement.style.display = show ? 'flex' : 'none';
     }
   }
   
@@ -118,16 +151,50 @@ export class Portfolio {
     if (this.errorElement) {
       this.errorElement.textContent = message;
       this.errorElement.style.display = 'block';
-      setTimeout(() => {
-        this.errorElement.style.display = 'none';
-      }, 5000);
     }
+  }
+
+  updateCounts(visible = null, total = null) {
+    if (this.totalCountEl && total !== null) {
+      this.totalCountEl.textContent = String(total);
+    } else if (this.totalCountEl && total === null && Array.isArray(this.portfolioData)) {
+      this.totalCountEl.textContent = String(this.portfolioData.length);
+    }
+    if (this.filterCountEl && visible !== null) {
+      this.filterCountEl.textContent = String(visible);
+    }
+  }
+
+  transformRepoToItem(repo) {
+    // Normalize data from repositories listing
+    const title = repo.title || repo.name || repo.full_name || 'Untitled Project';
+    const description = repo.description || 'No description available.';
+    const url = repo.url || repo.homepage || '#';
+    const language = (repo.language || '').toString();
+    const langLower = language.toLowerCase();
+
+    // Map language/keywords to categories used by buttons
+    let category = 'web';
+    if (langLower.includes('python')) category = 'python';
+    else if (langLower.includes('javascript') || langLower === 'js' || langLower === 'typescript') category = 'javascript';
+    else if (langLower.includes('shell') || langLower.includes('docker') || langLower.includes('makefile')) category = 'devops';
+    else if (description.toLowerCase().includes('iot') || description.toLowerCase().includes('edge')) category = 'iot';
+
+    const categories = [category];
+
+    const tags = [];
+    if (language) tags.push(language);
+    if (category && !tags.map(t => t.toLowerCase()).includes(category)) tags.push(category);
+
+    return {
+      title,
+      description,
+      url,
+      image: repo.image || null,
+      tags,
+      category,
+      categories
+    };
   }
 }
 
-// Initialize portfolio when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('portfolio-grid')) {
-    new Portfolio();
-  }
-});

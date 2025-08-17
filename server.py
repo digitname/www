@@ -38,16 +38,22 @@ class StaticHandler(http.server.SimpleHTTPRequestHandler):
             self.directory = str(Path(__file__).parent / 'data')
             self.path = self.path[5:]  # Remove '/data' prefix
         else:
-            # Default to views directory for HTML files
-            if not self.path or self.path == '/' or self.path == '/portfolio':
-                self.path = '/portfolio.html'
-            if not self.path.startswith('/'):
-                self.path = '/' + self.path
-            self.directory = str(Path(__file__).parent / 'views')
-            
-            # If the file doesn't exist, try serving from root
-            if not os.path.exists(os.path.join(self.directory, self.path.lstrip('/'))):
+            # Route HTML pages
+            if not self.path or self.path == '/':
+                # Serve homepage from root
+                self.path = '/index.html'
                 self.directory = str(Path(__file__).parent)
+            elif self.path == '/portfolio' or self.path == '/portfolio/':
+                # Serve modern portfolio embedded in index.html
+                self.path = '/index.html'
+                self.directory = str(Path(__file__).parent)
+            else:
+                if not self.path.startswith('/'):
+                    self.path = '/' + self.path
+                # Try from root first, then fallback to legacy views
+                self.directory = str(Path(__file__).parent)
+                if not os.path.exists(os.path.join(self.directory, self.path.lstrip('/'))):
+                    self.directory = str(Path(__file__).parent / 'views')
         
         print(f"Serving {self.path} from {self.directory}")  # Debug log
         

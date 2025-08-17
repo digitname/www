@@ -29,7 +29,6 @@
     
     <!-- Scripts -->
     <script src="https://valid-links.digitname.com/valid-links.js" defer></script>
-    <script src="/assets/js/portfolio-loader.js" defer></script>
     
     <!-- Initialize service worker -->
     <script>
@@ -50,7 +49,9 @@
     
     <!-- Load app as ES module -->
     <script type="module" src="/assets/js/main.js"></script>
-</head>
+    
+    <!-- Page-specific styles -->
+    <style>
         /* Loading and error states */
         #portfolio-loading {
             text-align: center;
@@ -343,39 +344,39 @@
             margin: 0;
         }
         
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            .portfolio-item {
-                background-color: #2d3748;
-                border-color: #4a5568;
-            }
-            
-            .portfolio-content {
-                color: #e2e8f0;
-            }
-            
-            .portfolio-content p {
-                color: #a0aec0;
-            }
-            
-            .portfolio-tag {
-                background-color: #4a5568;
-                color: #e2e8f0;
-            }
-            
-            .no-results {
-                background-color: #2d3748;
-            }
-            
-            .no-results h3 {
-                color: #e2e8f0;
-            }
-            
-            .no-results p {
-                color: #a0aec0;
-            }
+        /* Dark mode support (via data-theme attribute) */
+        [data-theme="dark"] .portfolio-item {
+            background-color: #2d3748;
+            border-color: #4a5568;
         }
-<body>
+        
+        [data-theme="dark"] .portfolio-content {
+            color: #e2e8f0;
+        }
+        
+        [data-theme="dark"] .portfolio-content p {
+            color: #a0aec0;
+        }
+        
+        [data-theme="dark"] .portfolio-tag {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        
+        [data-theme="dark"] .no-results {
+            background-color: #2d3748;
+        }
+        
+        [data-theme="dark"] .no-results h3 {
+            color: #e2e8f0;
+        }
+        
+        [data-theme="dark"] .no-results p {
+            color: #a0aec0;
+        }
+    </style>
+    </head>
+    <body>
 <!-- Loading Overlay -->
 <div class="loader" id="loader">
     <div class="spinner"></div>
@@ -397,6 +398,9 @@
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
+                <button id="dark-mode-toggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
             </nav>
             <button class="mobile-menu-toggle" aria-label="Toggle menu">
                 <span></span>
@@ -930,22 +934,6 @@
 
 <footer>
     <p>&copy; 2025 Tom Sapletta - digitname.com | All Rights Reserved</p>
-    <script type="module" src="assets/js/main.js"></script>
-    <script type="module" src="assets/js/modules/dark-mode.js"></script>
-    <script type="module">
-        import { Portfolio } from './assets/js/modules/portfolio.js';
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize portfolio if the element exists
-            if (document.getElementById('portfolio-grid')) {
-                new Portfolio();
-            }
-            
-            // Initialize dark mode if the element exists
-            if (document.getElementById('dark-mode-toggle')) {
-                import('./assets/js/modules/dark-mode.js');
-            }
-        });
-    </script>
+</footer>
 </body>
 </html>

@@ -14,7 +14,7 @@
     "test:webkit": "playwright test --project=webkit",
     "test:report": "playwright show-report",
     "eject": "react-scripts eject",
-    "dev": "python server.py",
+    "dev": "python server.py 8001",
     "lint": "eslint .",
     "format": "prettier --write .",
     "predeploy": "npm run build",

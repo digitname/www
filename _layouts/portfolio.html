@@ -22,7 +22,19 @@ layout: default
     </div>
   </div>
 
-  <div class="portfolio-grid" id="portfolioGrid">
+  <!-- Loading State (used by JS portfolio module) -->
+  <div id="portfolio-loading" style="display: none;">
+    <div class="loading-spinner"></div>
+    <div>Loading portfolio projects...</div>
+  </div>
+
+  <!-- Error State (used by JS portfolio module) -->
+  <div id="portfolio-error" style="display: none;">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span class="error-message">Error loading portfolio data. Please try again later.</span>
+  </div>
+
+  <div class="portfolio-grid" id="portfolio-grid">
     {% for project in site.portfolio %}
     <div class="portfolio-item" data-category="{{ project.category | downcase }}" data-tags="{{ project.tags | join: ' ' | downcase }}">
       <div class="portfolio-card">

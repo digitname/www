@@ -6,7 +6,7 @@ from pathlib import Path
 from digitname.accounts import AccountManager
 
 
-def test_account_manager_init(tmp_path):
+def test_account_manager_init(tmp_path, monkeypatch):
     """Test initializing AccountManager with a config file."""
     config_path = tmp_path / "accounts.toml"
     config_path.write_text("""
@@ -15,6 +15,11 @@ def test_account_manager_init(tmp_path):
     token = "testtoken"
     """)
     
+    # Ensure environment does not override file values for this test
+    monkeypatch.delenv("GITHUB_USERNAME", raising=False)
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    monkeypatch.delenv("GITHUB_EMAIL", raising=False)
+
     manager = AccountManager(str(config_path))
     assert manager.get_account("github")["username"] == "testuser"
 

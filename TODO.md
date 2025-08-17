@@ -5,8 +5,8 @@
 ## Status wdrożenia (2025-08-16) i rekomendacje
 
 - __Infrastruktura__: działa. Obecne pliki i katalogi: `docker-compose.logging.yml`, `promtail-config.yaml`, `loki-config.yaml`, `grafana/provisioning/` (datasource + dashboardy). Uruchamianie i provisioning są gotowe.
-- __Backend__: endpoint `POST /api/logs` istnieje w `www/api/logs.py` (sanityzacja, rate-limit per IP, zapis do pliku w `LOG_DIR`). Brakuje wspólnego loggera Pythona (`src/utils/logger.py`) i middleware dla requestów.
-- __Frontend__: `www/src/utils/logger.js` istnieje (batching, retry, web vitals hook). Brakuje ErrorBoundary i pełnego monitoringu wydajności.
+- __Backend__: endpoint `POST /api/logs` istnieje (FastAPI router: `www/digitname/logs_api.py`; dawny Flask endpoint też jest). Dodano middleware do logowania HTTP requestów (FastAPI) oraz zapis do pliku w `LOG_DIR`. Brakuje wspólnego loggera Pythona (structlog, trace_id, dekoratory).
+- __Frontend__: `www/src/utils/logger.js` istnieje (batching, retry, web vitals hook). Dodano `www/src/components/ErrorBoundary.jsx` i integrację w `www/src/index.js`.
 - __Dashboardy__: są w `grafana/provisioning/dashboards/` (np. `app-monitoring.json`). Alerting nie jest skonfigurowany.
 - __Integracja Promtail__: skonfigurowana.
   - Dodano label `logging=promtail` do usług `web` i `api` w `docker-compose.yml`.
@@ -173,7 +173,7 @@ Format logów: timestamp, level, service, trace_id, message, data, duration_ms
 
 ---
 
-### [ ] Task 2.2: Flask/FastAPI Middleware
+### [x] Task 2.2: Flask/FastAPI Middleware
 **Czas:** 15 min  
 **Prompt dla LLM:**
 ```
@@ -231,7 +231,7 @@ Export: logInfo, logError, logWarning, logDebug, logUserAction
 
 ---
 
-### [ ] Task 3.2: React Error Boundary
+### [x] Task 3.2: React Error Boundary
 **Czas:** 10 min  
 **Prompt dla LLM:**
 ```
