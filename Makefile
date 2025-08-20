@@ -1,5 +1,5 @@
 # Port configurations
-DEV_PORT := 8003
+DEV_PORT := 8033
 PROD_PORT := 8001
 PORTFOLIO_PORT := 8000
 PYTHON := python3

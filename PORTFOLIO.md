@@ -100,7 +100,7 @@ www/
 ## Makefile Commands
 
 ```bash
-# Start development server (port 8003)
+# Start development server (port 8033)
 make run
 
 # Build for production
@@ -133,13 +133,13 @@ make publish
 
 ## Development Server
 
-The development server runs on port 8003. Start it with:
+The development server runs on port 8033. Start it with:
 
 ```bash
 make run
 ```
 
-Then open http://localhost:8003 in your browser.
+Then open http://localhost:8033 in your browser.
 
 ## Environment Variables
 
@@ -147,7 +147,7 @@ Create a `.env` file in the root directory with the following variables:
 
 ```env
 # App
-PORT=8003
+PORT=8033
 NODE_ENV=development
 
 # GitHub
@@ -162,6 +162,6 @@ NPM_TOKEN=your_npm_token
 
 ## Troubleshooting
 
-- If you get a port conflict, make sure no other service is using port 8003
+- If you get a port conflict, make sure no other service is using port 8033
 - Run `make clean` if you encounter build issues
 - Check the browser's developer console for any JavaScript errors

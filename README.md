@@ -344,7 +344,7 @@ www/
 # Install dependencies
 make deps
 
-# Start development server (port 8003)
+# Start development server (port 8033)
 make run
 
 # Build for production

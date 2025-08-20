@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Tuple, Optional
 
 # Configuration
-DEFAULT_PORTS = [8000, 8001, 8002, 8003, 8080, 3000, 5000, 3001, 5001]
+DEFAULT_PORTS = [8000, 8001, 8002, 8033, 8080, 3000, 5000, 3001, 5001]
 HOST = '0.0.0.0'
 
 class StaticHandler(http.server.SimpleHTTPRequestHandler):
