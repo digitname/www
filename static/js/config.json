@@ -1,0 +1,15 @@
+{
+  "loggingEnabled": true,
+  "defaultTheme": "dark",
+  "portfolioDataPath": "/data/portfolio.json",
+  "debugLevel": "verbose",
+  "sections": {
+    "header": true,
+    "about": true,
+    "skills": true,
+    "portfolio": true,
+    "experience": true,
+    "domains": true,
+    "contact": true
+  }
+}

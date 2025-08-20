@@ -1,29 +1,21 @@
-const CACHE_NAME = 'portfolio-v2';
+const CACHE_NAME = 'portfolio-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/portfolio.html',
+  // CSS
   '/assets/css/main.css',
   '/assets/css/portfolio.css',
   '/assets/css/portfolio-section.css',
-  '/assets/js/main.js',
-  '/assets/js/portfolio.js',
-  '/assets/js/app.js',
-  '/assets/js/utils/animations.js',
-  '/assets/js/utils/api.js',
-  '/assets/js/utils/cookies.js',
-  '/assets/js/utils/events.js',
-  '/assets/js/utils/feature-detection.js',
-  '/assets/js/utils/forms.js',
-  '/assets/js/utils/helpers.js',
-  '/assets/js/utils/navigation.js',
-  '/assets/js/utils/responsive.js',
-  '/assets/js/utils/storage.js',
+  // JS (existing paths)
+  '/static/js/main.js',
+  '/portfolio.js',
+  // Images & meta
   '/assets/images/icon-192x192.png',
   '/favicon.ico',
   '/manifest.json',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://valid-links.digitname.com/valid-links.js'
+  // External (best-effort; skipped if unavailable)
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
 
 // Install event - cache all static assets

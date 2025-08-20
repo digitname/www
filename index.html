@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Professional portfolio of Tom Sapletta - Full Stack Developer & System Architect">
     <meta name="theme-color" content="#4a90e2">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="no">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Tom's Portfolio">
     
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/assets/images/icon-192x192.png">
-    <link rel="manifest" href="/manifest.json">
     
     <title>Tom Sapletta - Professional Portfolio</title>
     
@@ -28,27 +27,24 @@
     <link rel="stylesheet" href="assets/css/portfolio.css" type="text/css">
     
     <!-- Scripts -->
-    <script src="https://valid-links.digitname.com/valid-links.js" defer></script>
-    
-    <!-- Initialize service worker -->
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js')
-            .then(registration => {
-              console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            })
-            .catch(err => {
-              console.error('ServiceWorker registration failed: ', err);
-            });
-        });
-      } else {
-        console.log('Service workers are not supported in this browser.');
+      // Load external script only on production domain to avoid 404s in dev
+      if (location.hostname.endsWith('digitname.com')) {
+        const s = document.createElement('script');
+        s.src = 'https://valid-links.digitname.com/valid-links.js';
+        s.defer = true;
+        s.onerror = () => console.warn('valid-links.js failed to load');
+        document.head.appendChild(s);
       }
     </script>
     
-    <!-- Load app as ES module -->
-    <script type="module" src="/assets/js/main.js"></script>
+    <!-- Initialize service worker - usunięte dla wyłączenia PWA -->
+    <script>
+      console.log('Service Worker i PWA wyłączone na żądanie użytkownika.');
+    </script>
+    
+    <!-- Load app as ES module (use existing static path) -->
+    <script type="module" src="/static/js/main.js"></script>
     
     <!-- Page-specific styles -->
     <style>
@@ -384,6 +380,7 @@
 
 
 <div class="container">
+    <!-- Header Section -->
     <header class="site-header">
         <div class="header-content">
             <div class="logo">
@@ -409,12 +406,16 @@
             </button>
         </div>
     </header>
+    <!-- End Header Section -->
 
+    <!-- Profile Section -->
     <div class="profile-section">
         <img src="https://sapletta.github.io/about/image.png" alt="Tom Sapletta" class="profile-image">
         <h1><a href="https://sapletta.com">Tom Sapletta</a> <a href="https://www.digitname.com">DigitName Portfolio</a></h1>
     </div>
+    <!-- End Profile Section -->
 
+    <!-- Profile Content Section -->
     <div class="profile-content">
 
 
@@ -535,7 +536,7 @@
                 <li>TextToSoftware - Automated Code Generation from Natural Language</li>
                 <li>Hypermodularization in Software Architecture</li>
                 <li>Edge Computing and Distributed Systems</li>
-                <li>Model-Based Systems Engineering (MBSE)</li>
+                <li>Model-Based Systems and Software Engineering (MBSE and ModDevOps)</li>
                 <li>Component-Based Software Development</li>
                 <li>Digital Twin Technology</li>
             </ul>
@@ -549,6 +550,7 @@
                 research with practical industry applications and technology education initiatives.</p>
         </div>
     </div>
+    <!-- End Profile Content Section -->
 
     <div class="section" id="contact">
         <h2>Contact Information</h2>
